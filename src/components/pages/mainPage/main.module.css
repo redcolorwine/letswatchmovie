@@ -1,0 +1,63 @@
+.main {
+    background-color: rgb(68, 66, 66);
+}
+
+.mainBlock img {
+    height: 500px;
+    width: 500px;
+}
+
+.mainBlock {
+    background-color: black;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.description {
+    margin-left: 50px;
+    width: 500px;
+    color: white;
+}
+
+.description button, .filmItem button {
+    background-color: rgb(146, 146, 146);
+    color: white;
+    font-family: consolas;
+    font-weight: 900;
+    padding: 3px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.filmItem button {
+    margin: 5px;
+    width: 100px;
+}
+.description button:hover {
+    color: bisque;
+}
+
+.newsBlock {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.newsBlock img {
+    height: 400px;
+    width: 400px;
+}
+
+.filmItem {
+    margin: 25px;
+    padding: 25px;
+    background-color: black;
+    color: white;
+    display: inline-block;
+    width: 400px;
+}

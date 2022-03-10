@@ -1,0 +1,33 @@
+.header {
+    position: sticky;
+    top:0;
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    color: white;
+    align-items: center;
+}
+
+.header nav li {
+    list-style: none;
+    display: inline;
+    padding-left: 20px;
+    font-size: 20pt;
+    font-family: consolas;
+}
+
+.header nav li a {
+    color: rgb(146, 146, 146);
+    font-weight: 900;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.header nav li a:hover {
+    color: white;
+}
+
+.header img {
+    height: 100px;
+    width: 100px;
+}
