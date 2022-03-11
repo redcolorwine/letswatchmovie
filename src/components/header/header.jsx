@@ -6,10 +6,10 @@ const Header = (props) => {
         <div className={cmedia.header}>
             <img src={logo} alt="" />
             <nav>
-                <li><NavLink to="/">MAIN</NavLink></li>
-                <li><NavLink to="/films">FILMS</NavLink></li>
-                <li><NavLink to="/tvseries">TV SERIES</NavLink></li>
-                <li><NavLink to="/about">ABOUT US</NavLink></li>
+                <li><NavLink to="/">ГЛАВНАЯ</NavLink></li>
+                <li><NavLink to="/films">ФИЛЬМЫ</NavLink></li>
+                <li><NavLink to="/tvseries">СЕРИАЛЫ</NavLink></li>
+                <li><NavLink to="/about">О НАС</NavLink></li>
             </nav>
         </div>
     )

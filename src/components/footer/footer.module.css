@@ -2,8 +2,11 @@
     margin: 0;
     padding: 0;
     height: 100px;
+    width: 1000px;
+    margin: 0 auto;
     text-align: center;
-    background: rgb(29, 29, 29);
+    background-color: rgb(16, 14, 25);
+    border-top: 1px solid rgba(220, 220, 220, 0.2);
     color: rgb(146, 146, 146);
     font-family: consolas;
     font-weight: 900;
