@@ -22,7 +22,9 @@ let initialState = {
         }
     ],
     mostPopularFilms: '',
-    chosenFilm: 'none'
+    genres: '',
+    chosenFilm: 'none',
+    currentMainFilm: 5
 }
 
 
@@ -35,12 +37,20 @@ let mainPageReducer = (state = initialState, action) => {
             }
         case 'GET_ONE_FILM':
             let chose = state.mostPopularFilms.filter(film => film.id == action.filmId);
-            debugger;
             return {
                 ...state,
                 chosenFilm: chose
             }
-           
+        case 'SET_GENRES':
+            return {
+                ...state,
+                genres: action.genres
+            }
+        case 'SET_CURRENT_MAIN_FILM':
+            return {
+                ...state,
+                currentMainFilm: action.currentFilm
+            }
         default: return state
     }
 }

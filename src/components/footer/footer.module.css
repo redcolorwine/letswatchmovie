@@ -7,17 +7,14 @@
     text-align: center;
     background-color: rgb(16, 14, 25);
     border-top: 1px solid rgba(220, 220, 220, 0.2);
-    color: rgb(146, 146, 146);
+    color: rgb(130, 129, 135);
     font-family: consolas;
     font-weight: 900;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+
 }
 
 .footer p {
-    font-size: 15pt;
+    font-size: 12pt;
 }
 
 .logos {
@@ -26,8 +23,8 @@
 
 .logos img {
     padding-right: 20px;
-    height: 40px;
-    width: 40px;
+    height: 20px;
+    width: 20px;
     transition: 0.5s;
 }
 
@@ -35,3 +32,37 @@
     cursor: pointer;
     transform: scale(1.2, 1.2);
 }
+
+.lastBlock {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.firstBlock {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(220, 220, 220, 0.2);
+}
+
+.firstBlock li {
+    list-style: none;
+}
+
+.firstBlock h4 {
+    color: white;
+}
+
+.firstBlock li a {
+    text-decoration: none;
+    color: rgb(130, 129, 135);
+}
+
+.miniNav {}
+
+.miniHelp {}
+
+.miniAbout {}
