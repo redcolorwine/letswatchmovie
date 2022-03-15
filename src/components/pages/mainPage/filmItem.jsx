@@ -28,7 +28,7 @@ const FilmItem = (props) => {
         <div className={cmedia.filmItem}>
             <h4>{props.title}</h4>
             <img src={props.img} alt="" onClick={onItemClick} />
-            <p>Оценка: {props.vote}</p>
+            <p>Оценка: {props.vote != 0 ? props.vote : 'ожидается'}</p>
             <p>Дата выхода: {props.release}</p>
             <p>Жанры: {genres}</p>
             <p>Возрастные ограничения: {props.adult ? <span>18+</span> : <span>нет</span>}</p>

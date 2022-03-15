@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usersAPI } from '../../../api/api';
 import FilmItem from './filmItem';
 import cmedia from './main.module.css';
-import arrowLeft from '../../../media/buttons/arrowLeft.png';
-import arrowRight from '../../../media/buttons/arrowRight.png';
+import preloader from './../../../media/preloaders/preloader.svg';
 
 const Main = (props) => {
 
@@ -13,31 +11,30 @@ const Main = (props) => {
         history('movie/' + props.mostPopularFilms[props.currentMainFilm].id);
     }
 
-    const [isLoading, setIsLoading] = useState(true);
-
-
     useEffect(() => {
-
-        usersAPI.getMostPopularFilms().then(response => {
-            props.setMostPopularFilms(response.results);
-        })
-
-        usersAPI.getGenres().then(response => {
-            props.setGenres(response);
-            setIsLoading(false);
-        })
+        props.getFilmsForMainPage(1);
+        // props.getUpcommingFilms();
+        // props.setGenres();
 
     }, [])
 
-    if (isLoading) {
+    if (props.isMainPageLoading) {
         return (
-            <div>LOADING...</div>
+
+            <div className={cmedia.preloader}>
+                <img src={preloader} alt="" />
+            </div>
         )
     } else {
+
         let popularFilmsFromServer = props.mostPopularFilms.map((film) => {
             return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`} description={film.overview} />)
         })
+        let upcommingFilmsFromServer = props.upcommingFilms.map((film) => {
+            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`} description={film.overview} />)
+        })
         let genresNames = [];
+
         for (let j = 0; j < props.mostPopularFilms[props.currentMainFilm].genre_ids.length; j++) {
             for (let i = 0; i < props.genres.genres.length; i++) {
                 if (props.mostPopularFilms[props.currentMainFilm].genre_ids[j] === props.genres.genres[i].id) {
@@ -47,10 +44,9 @@ const Main = (props) => {
         }
 
         let genres = genresNames.map((genre) => {
-
             return (<span key={genre}>{genre} </span>)
-
         })
+
         return (
             <div className={cmedia.main}>
                 <div className={cmedia.mainBlock}>
@@ -67,27 +63,34 @@ const Main = (props) => {
                             <p>Дата выхода: {props.mostPopularFilms[props.currentMainFilm].release_date}</p>
                             <p>Жанр: {genres}</p>
                             <p>{props.mostPopularFilms[props.currentMainFilm].overview}</p>
-                            <p>Оценка: {props.mostPopularFilms[props.currentMainFilm].vote_average}</p>
-
+                            <p>Оценка TMDB: {props.mostPopularFilms[props.currentMainFilm].vote_average}</p>
                             <button>Смотреть сейчас</button>
                         </div>
                     </div>
 
-                    <button className={cmedia.arrowRight}  onClick={() => {
+                    <button className={cmedia.arrowRight} onClick={() => {
                         if (props.currentMainFilm < props.mostPopularFilms.length - 1) props.setCurrentMainFilm(props.currentMainFilm + 1)
                         else props.setCurrentMainFilm(0)
                     }}>	&gt;</button>
 
 
                 </div>
+
                 <div className={cmedia.actualLabel}>
                     <h1>Актуальные новинки: </h1>
                 </div>
 
                 <div className={cmedia.newsBlock}>
-
                     {popularFilmsFromServer}
                 </div>
+
+                <div className={cmedia.actualLabel}>
+                    <h1>Самое ожидаемое: </h1>
+                </div>
+                <div className={cmedia.newsBlock}>
+                    {upcommingFilmsFromServer}
+                </div>
+                <button className={cmedia.down} onClick={() => { props.addUpcomingFilms(4); console.log(props.upcommingFilms) }}>&darr;</button>
             </div>
         )
     }

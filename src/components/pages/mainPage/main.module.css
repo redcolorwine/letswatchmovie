@@ -54,6 +54,7 @@
 
 .description button {
     background-color: rgb(255, 15, 77);
+    border: 1px solid rgb(255, 15, 77);
     color: white;
     font-family: consolas;
     font-weight: 900;
@@ -135,24 +136,52 @@
     text-align: center;
 }
 
-.main button.arrowLeft,.main button.arrowRight {
+.main {
+    text-align: center;
+}
+
+.main button.arrowLeft, .main button.arrowRight {
+    border: 1px solid rgb(255, 15, 77);
     width: 40px;
     height: 140px;
     font-size: 20pt;
     font-weight: 700;
     margin: 5px;
 }
-.main button.arrowLeft{
+
+.main button.arrowLeft {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
 }
-.main button.arrowRight{
+
+.main button.arrowRight {
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
 .animateBlock {
     animation-duration: 2s;
     animation-name: animate-block;
+}
+
+.preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.down {
+    background-color: rgb(255, 15, 77);
+    color: white;
+    font-family: consolas;
+    font-size: 14pt;
+    font-weight: 900;
+    border: 1px solid rgb(255, 15, 77);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    width: 70px;
 }
 
 @keyframes animate-block {

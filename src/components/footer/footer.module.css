@@ -59,6 +59,11 @@
 .firstBlock li a {
     text-decoration: none;
     color: rgb(130, 129, 135);
+    transition: 0.3s;
+}
+
+.firstBlock li a:hover {
+    color: white;
 }
 
 .miniNav {}

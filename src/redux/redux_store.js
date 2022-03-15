@@ -1,10 +1,10 @@
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import mainPageReducer from "./mainPageReducer";
-
+import thunk from 'redux-thunk';
 let reducers = combineReducers({
     main: mainPageReducer
 })
 
-let store = createStore(reducers);
+let store = createStore(reducers, applyMiddleware(thunk));
 
 export default store;

@@ -1,34 +1,21 @@
 import { connect } from "react-redux"
+import { getMovieInfoThunkCreator } from "../../../../redux/mainPageReducer"
 import MovieInfo from "./movieInfo"
 
 let mapStateToProps = (state) => {
     return {
         mostPopularFilms: state.main.mostPopularFilms,
         chosenFilm: state.main.chosenFilm,
-        genresNames: state.main.genres
+        genresNames: state.main.genres,
+        isMovieInfoLoading: state.main.isMovieInfoLoading
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
         getChosenFilm: (filmId) => {
-            dispatch({
-                type: 'GET_ONE_FILM',
-                filmId
-            })
+            dispatch(getMovieInfoThunkCreator(filmId))
         },
-        setMostPopularFilms: (mostPopularFilms) => {
-            dispatch({
-                type: 'SET_MOST_POPULAR_FILMS',
-                mostPopularFilms
-            })
-        },
-        setGenres: (genres) => {
-            dispatch({
-                type: 'SET_GENRES',
-                genres
-            })
-        }
     }
 }
 

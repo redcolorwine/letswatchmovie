@@ -1,34 +1,28 @@
 import { connect } from "react-redux"
+import { addUpcomingFilmsThunkCreator, getMPFilmsThunkCreator, setCurrentMainFilm } from "../../../redux/mainPageReducer"
 import Main from "./main"
 
 let mapStateToProps = (state) => {
     return {
         filmItems: state.main.filmItems,
         mostPopularFilms: state.main.mostPopularFilms,
+        upcommingFilms: state.main.upcommingFilms,
         genres: state.main.genres,
-        currentMainFilm: state.main.currentMainFilm
+        currentMainFilm: state.main.currentMainFilm,
+        isMainPageLoading: state.main.isMainPageLoading
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        setMostPopularFilms: (mostPopularFilms) => {
-            dispatch({
-                type: 'SET_MOST_POPULAR_FILMS',
-                mostPopularFilms
-            })
+        getFilmsForMainPage: (page) => {
+            dispatch(getMPFilmsThunkCreator(page))
         },
-        setGenres: (genres) => {
-            dispatch({
-                type: 'SET_GENRES',
-                genres
-            })
+        addUpcomingFilms: (page) => {
+            dispatch(addUpcomingFilmsThunkCreator(page))
         },
         setCurrentMainFilm: (currentFilm) => {
-            dispatch({
-                type: 'SET_CURRENT_MAIN_FILM',
-                currentFilm
-            })
+            dispatch(setCurrentMainFilm(currentFilm))
         }
     }
 }

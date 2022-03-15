@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { usersAPI } from '../../../../api/api';
 import cmedia from './movieinfo.module.css';
-
+import preloader from './../../../../media/preloaders/preloader.svg';
 const MovieInfo = (props) => {
-    const [isLoading, setIsLoading] = useState(true);
+
     const { id } = useParams();
 
-
     useEffect(() => {
-        usersAPI.getMostPopularFilms().then(response => {
-            props.setMostPopularFilms(response.results);
-            props.getChosenFilm(id);
-
-        })
-        usersAPI.getGenres().then(response => {
-            props.setGenres(response);
-            setIsLoading(false);
-        })
-
+        props.getChosenFilm(id);
     }, [])
 
 
-    if (isLoading) return (<div>
-        loading...
+    if (props.isMovieInfoLoading) return (<div className={cmedia.preloader}>
+        <img src={preloader} alt="" />
     </div>)
     else {
 
@@ -37,9 +26,7 @@ const MovieInfo = (props) => {
         }
 
         let genres = genresNames.map((genre) => {
-
             return (<span key={genre}>{genre} </span>)
-
         })
 
         return (
@@ -47,14 +34,15 @@ const MovieInfo = (props) => {
             <div className={cmedia.movieInfo}>
                 <div className={cmedia.title}>
                     <h4>{props.chosenFilm[0].title}</h4>
-                    <p>Дата выхода: {props.chosenFilm[0].release_date}</p>
+                    <p>Дата выхода: <span>{props.chosenFilm[0].release_date}</span> </p>
+                    <p>Жанр: <span>{genres}</span></p>
                     <p>Возрастные ограничения: {props.chosenFilm[0].adult ? <span>18+</span> : <span>нет</span>}</p>
                     <img src={`https://image.tmdb.org/t/p/w500/${props.chosenFilm[0].backdrop_path}`} alt="" />
                 </div>
 
                 <div className={cmedia.description}>
-                    <p>Жанр: {genres}</p>
-                    <p className={cmedia.vote}>Рейтинг: {props.chosenFilm[0].vote_average}</p>
+
+                    <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.chosenFilm[0].vote_average != 0 ? props.chosenFilm[0].vote_average : 'ожидается'}</span> </p>
                     <p className={cmedia.about}>{props.chosenFilm[0].overview}</p>
                 </div>
 

@@ -1,27 +1,10 @@
+import { usersAPI } from '../api/api';
+
 let initialState = {
-    filmItems: [
-        {
-            id: 1, title: 'Escape from ShawShank', description: 'The Shawshank Redemption is a 1994 Americandrama film written and directed by FrankDarabont, based on the 1982 Stephen King novella Rita Hayworth and Shawshank Redemption. It tells the story of banker Andy Dufresne Tim Robbins, who is sentenced to life in Shawshank State Penitentiary for the murders of his wife and her lover, despite his claims of innocence. Over the following two decades, he befriends a fellow prisoner, contraband smuggler Ellis Red Redding Morgan Freeman, and becomes instrumental in a money-laundering operation led by the prison warden Samuel Norton Bob Gunton. William Sadler, Clancy Brown, Gil Bellows, and James Whitmore appear in supporting roles.',
-            img: require('./../media/posters/shawshank.jpg')
-        },
-        {
-            id: 2, title: 'Archer', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.',
-            img: require('./../media/posters/archer.jpg')
-        },
-        {
-            id: 3, title: 'Assassin', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.',
-            img: require('./../media/posters/assassin.jpg')
-        },
-        {
-            id: 4, title: 'Freedom', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.',
-            img: require('./../media/posters/freedom.jpg')
-        },
-        {
-            id: 5, title: 'Rememory', description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.',
-            img: require('./../media/posters/rememory.jpg')
-        }
-    ],
+    isMainPageLoading: true,
+    isMovieInfoLoading: true,
     mostPopularFilms: '',
+    upcommingFilms: '',
     genres: '',
     chosenFilm: 'none',
     currentMainFilm: 5
@@ -35,8 +18,37 @@ let mainPageReducer = (state = initialState, action) => {
                 ...state,
                 mostPopularFilms: action.mostPopularFilms
             }
+        case 'SET_UPCOMING_FILMS':
+            return {
+                ...state,
+                upcommingFilms: action.upcommingFilms
+            }
+        case 'ADD_UPCOMING_FILMS':
+            debugger;
+            return {
+                ...state,
+                upcommingFilms: state.upcommingFilms.concat(action.addedFilms)
+
+            }
+        case 'SET_IS_LOADING': {
+            return {
+                ...state,
+                isMainPageLoading: action.loading
+            }
+        }
+        case 'SET_IS_MOVIE_INFO_LOADING': {
+
+            return {
+                ...state,
+                isMovieInfoLoading: action.movieLoading
+            }
+        }
         case 'GET_ONE_FILM':
             let chose = state.mostPopularFilms.filter(film => film.id == action.filmId);
+            if (chose == '') {
+                chose = state.upcommingFilms.filter(film => film.id == action.filmId);
+            }
+            debugger;
             return {
                 ...state,
                 chosenFilm: chose
@@ -55,4 +67,60 @@ let mainPageReducer = (state = initialState, action) => {
     }
 }
 
+export const getMPFilmsThunkCreator = (page) => {
+
+    return (dispatch) => {
+
+        usersAPI.getFilmsForMainPage(page).then(response => {
+
+            dispatch(setMostPopularFilms(response[0].data.results));
+            dispatch(setGenres(response[1].data))
+            dispatch(setUpcommingFilms(response[2].data.results));
+
+        }).then(() => {
+
+            dispatch(setIsLoading(false));
+
+        })
+    }
+
+}
+
+export const getMovieInfoThunkCreator = (filmId) => {
+
+    return (dispatch) => {
+
+        usersAPI.getFilmsForMovieInfo().then(response => {
+
+            dispatch(setMostPopularFilms(response[0].data.results));
+            dispatch(setGenres(response[1].data))
+            dispatch(setUpcommingFilms(response[2].data.results))
+            dispatch(getOneFilm(filmId))
+
+
+        }).then(() => {
+
+            dispatch(setIsMovieInfoLoading(false));
+
+        })
+    }
+
+}
+
+export const addUpcomingFilmsThunkCreator = (page) => {
+    return (dispatch) => {
+        usersAPI.getUpcomingFilms(page).then(response => {
+            dispatch(addUpcomingFilms(response.results))
+        })
+    }
+}
+
+export const setMostPopularFilms = (mostPopularFilms) => { return { type: 'SET_MOST_POPULAR_FILMS', mostPopularFilms } }
+export const setUpcommingFilms = (upcommingFilms) => { return { type: 'SET_UPCOMING_FILMS', upcommingFilms } }
+export const setGenres = (genres) => { return { type: 'SET_GENRES', genres } }
+export const setIsLoading = (loading) => { return { type: 'SET_IS_LOADING', loading } }
+export const setIsMovieInfoLoading = (movieLoading) => { return { type: 'SET_IS_MOVIE_INFO_LOADING', movieLoading } }
+export const setCurrentMainFilm = (currentFilm) => { return { type: 'SET_CURRENT_MAIN_FILM', currentFilm } }
+export const getOneFilm = (filmId) => { return { type: 'GET_ONE_FILM', filmId } }
+export const addUpcomingFilms = (addedFilms) => { return { type: 'ADD_UPCOMING_FILMS', addedFilms } }
 export default mainPageReducer;
