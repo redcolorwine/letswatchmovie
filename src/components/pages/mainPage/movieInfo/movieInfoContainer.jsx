@@ -7,14 +7,16 @@ let mapStateToProps = (state) => {
         mostPopularFilms: state.main.mostPopularFilms,
         chosenFilm: state.main.chosenFilm,
         genresNames: state.main.genres,
-        isMovieInfoLoading: state.main.isMovieInfoLoading
+        isMovieInfoLoading: state.main.isMovieInfoLoading,
+        currentUpcomingFilmPage: state.main.currentUpcomingFilmPage
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        getChosenFilm: (filmId) => {
-            dispatch(getMovieInfoThunkCreator(filmId))
+        //Получени данных выбранного фильма
+        getChosenFilm: (filmId, page) => {
+            dispatch(getMovieInfoThunkCreator(filmId, page))
         },
     }
 }

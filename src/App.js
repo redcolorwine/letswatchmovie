@@ -7,21 +7,27 @@ import Films from './components/pages/films/films';
 import About from './components/pages/about/about';
 import MainContainer from './components/pages/mainPage/mainContainer';
 import MovieInfoContainer from './components/pages/mainPage/movieInfo/movieInfoContainer';
+
 function App() {
+  //Выделяем id из адресной строки браузера для последующей передачи компоненту MovieInfo
+  // и формирования нового адреса этого компонента
   const { id } = useParams();
+
   return (
     <div className="App">
       <Header />
       <div className="app_wrapper">
+        {/* РОУТИНГ */}
         <Routes>
           <Route path='/' element={<MainContainer />} />
           <Route path='/tvseries' element={<Tvseries />} />
           <Route path='/films/*' element={<Films />} />
           <Route path='/about' element={<About />} />
+          {/* Передаем id в адресную строку компонента MovieInfo, чтобы для каждого фильма была уникальная страница */}
           <Route path={`/movie/:id`} element={<MovieInfoContainer />} />
+          {/* Если введен неверный путь, что будет рендериться главная компонента */}
           <Route path='*' element={<MainContainer />} />
         </Routes>
-
       </div>
       <Footer />
     </div>

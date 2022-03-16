@@ -16,3 +16,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+/*  axios для запросов API,
+    react-redux для удобной работы с redux,
+    react-router-dom для навигации NavLink,
+    redux state-management ,
+    redux-thunk для использование thunk middleware */
