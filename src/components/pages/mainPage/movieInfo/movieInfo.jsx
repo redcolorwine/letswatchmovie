@@ -9,7 +9,8 @@ const MovieInfo = (props) => {
 
     //После отрисовки компоненты получаем данные выбранного фильм полученные из API
     useEffect(() => {
-        props.getChosenFilm(id, props.currentUpcomingFilmPage - 1);
+        // props.getChosenFilm(id, props.currentUpcomingFilmPage - 1);
+        props.getChosenFilm(id,props.upcommingFilms.page)
     }, [])
 
     //Если данные еще не получены, отображаем загрузку страницы preloader
@@ -41,6 +42,7 @@ const MovieInfo = (props) => {
             <div className={cmedia.movieInfo}>
 
                 <div className={cmedia.title}>
+                    {/* <h3>page: {props.upcommingFilms.page}</h3> */}
                     <h4>{props.chosenFilm[0].title}</h4>
                     <p>Дата выхода: <span>{props.chosenFilm[0].release_date}</span> </p>
                     <p>Жанр: <span>{genres}</span></p>

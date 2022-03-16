@@ -45,6 +45,11 @@ export const usersAPI = {
         return axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU').then(response => {
             return response.data
         });
+    },
+    searchMovie(query = 'Путешествие') {
+        return axios.get(`https://api.themoviedb.org/3/search/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&query=${query}`).then(response => {
+            return response;
+        })
     }
 }
 //  instance.get(`discover/movie?sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`)

@@ -5,6 +5,7 @@ import MovieInfo from "./movieInfo"
 let mapStateToProps = (state) => {
     return {
         mostPopularFilms: state.main.mostPopularFilms,
+        upcommingFilms: state.main.upcommingFilms,
         chosenFilm: state.main.chosenFilm,
         genresNames: state.main.genres,
         isMovieInfoLoading: state.main.isMovieInfoLoading,

@@ -7,7 +7,9 @@
     color: white;
     align-items: center;
 }
-
+.header nav{
+    display: inline;
+}
 .header nav li {
     list-style: none;
     display: inline;
@@ -30,4 +32,28 @@
 .header img {
     height: 100px;
     width: 100px;
+}
+
+.navbar{
+    display: flex;
+    align-items: center;
+
+}
+.navbar input{
+    display: inline;
+    margin-left: 10px;
+    background-color: rgb(146, 146, 146);
+    border:1px solid rgb(146, 146, 146);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    outline: none;
+    color:white;
+}
+.navbar button{
+    margin-left: 1px;
+    background-color: rgb(255, 15, 77);
+    color:white;
+    border: 1px solid rgb(255, 15, 77);
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }

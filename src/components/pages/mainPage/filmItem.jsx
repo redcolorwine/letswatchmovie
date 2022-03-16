@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import cmedia from './main.module.css';
+import cinema from './../../../media/logo/cinema.jpg';
 //Отображение фильма по отдельности на глявной странице
 const FilmItem = (props) => {
     //При помощи useNavigate() добавляем в адресную строку ID выбранного фильма
@@ -28,7 +29,7 @@ const FilmItem = (props) => {
     return (
         <div className={cmedia.filmItem}>
             <h4>{props.title}</h4>
-            <img src={props.img} alt="" onClick={onItemClick} />
+            <img src={props.img !== null ? props.img : cinema} alt="" onClick={onItemClick} />
             <p>Оценка: {props.vote != 0 ? props.vote : 'ожидается'}</p>
             <p>Дата выхода: {props.release}</p>
             <p>Жанры: {genres}</p>

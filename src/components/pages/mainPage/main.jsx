@@ -11,7 +11,7 @@ const Main = (props) => {
 
     //Функция перехода
     const onItemClick = () => {
-        history('movie/' + props.mostPopularFilms[props.currentMainFilm].id);
+        history('movie/' + props.mostPopularFilms.results[props.currentMainFilm].id);
     }
 
     //Используем хук UseEffect чтобы сделать запросы API после отрисовки страницы
@@ -33,19 +33,19 @@ const Main = (props) => {
         )
     } else {
         //Иначе получаем данные фильмов из state и передаем их для отрисовки компонент FilmItem(которая отображает популярные и ожидаемые фильмы)
-        let popularFilmsFromServer = props.mostPopularFilms.map((film) => {
-            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`} description={film.overview} />)
+        let popularFilmsFromServer = props.mostPopularFilms.results.map((film) => {
+            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} />)
         })
-        let upcommingFilmsFromServer = props.upcommingFilms.map((film) => {
-            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`} description={film.overview} />)
+        let upcommingFilmsFromServer = props.upcommingFilms.results.map((film) => {
+            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} />)
         })
 
         //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
         let genresNames = [];
         //Сверяем ID жанров текущего главного фильма с ID жанров API сервера и если ID совпадают, то загружаем их имена в массив genresNames
-        for (let j = 0; j < props.mostPopularFilms[props.currentMainFilm].genre_ids.length; j++) {
+        for (let j = 0; j < props.mostPopularFilms.results[props.currentMainFilm].genre_ids.length; j++) {
             for (let i = 0; i < props.genres.genres.length; i++) {
-                if (props.mostPopularFilms[props.currentMainFilm].genre_ids[j] === props.genres.genres[i].id) {
+                if (props.mostPopularFilms.results[props.currentMainFilm].genre_ids[j] === props.genres.genres[i].id) {
                     genresNames.push(props.genres.genres[i].name)
                 }
             }
@@ -70,19 +70,19 @@ const Main = (props) => {
                     }}>&lt;</button>
                     {/* Отображаем главный фильм */}
                     <div className={cmedia.centerBlock}>
-                        <img className={cmedia.animateBlock} src={`https://image.tmdb.org/t/p/w500/${props.mostPopularFilms[props.currentMainFilm].backdrop_path}`} onClick={onItemClick} alt="" />
+                        <img className={cmedia.animateBlock} src={`https://image.tmdb.org/t/p/w500/${props.mostPopularFilms.results[props.currentMainFilm].backdrop_path}`} onClick={onItemClick} alt="" />
                         <div className={cmedia.description}>
-                            <h1>{props.mostPopularFilms[props.currentMainFilm].title}</h1>
-                            <p>Дата выхода: {props.mostPopularFilms[props.currentMainFilm].release_date}</p>
+                            <h1>{props.mostPopularFilms.results[props.currentMainFilm].title}</h1>
+                            <p>Дата выхода: {props.mostPopularFilms.results[props.currentMainFilm].release_date}</p>
                             <p>Жанр: {genres}</p>
-                            <p>{props.mostPopularFilms[props.currentMainFilm].overview}</p>
-                            <p>Оценка TMDB: {props.mostPopularFilms[props.currentMainFilm].vote_average}</p>
+                            <p>{props.mostPopularFilms.results[props.currentMainFilm].overview}</p>
+                            <p>Оценка TMDB: {props.mostPopularFilms.results[props.currentMainFilm].vote_average}</p>
                             <button>Смотреть сейчас</button>
                         </div>
                     </div>
                     {/* Правая стрелка */}
                     <button className={cmedia.arrowRight} onClick={() => {
-                        if (props.currentMainFilm < props.mostPopularFilms.length - 1) props.setCurrentMainFilm(props.currentMainFilm + 1)
+                        if (props.currentMainFilm < props.mostPopularFilms.results.length - 1) props.setCurrentMainFilm(props.currentMainFilm + 1)
                         else props.setCurrentMainFilm(0)
                     }}>	&gt;</button>
 
@@ -105,7 +105,8 @@ const Main = (props) => {
                     {upcommingFilmsFromServer}
                 </div>
                 {/* Кнопка для прогрузки следующей порции ожидаемых фильмов*/}
-                <button className={cmedia.down} onClick={() => { props.setCurrentUpcomingPage(props.currentUpcomingFilmPage + 1); props.addUpcomingFilms(props.currentUpcomingFilmPage); console.log(props.currentUpcomingFilmPage) }}>&darr;</button>
+                <button className={cmedia.down} onClick={() => { props.setCurrentUpcomingPage(props.currentUpcomingFilmPage - 1); props.addUpcomingFilms(props.currentUpcomingFilmPage); console.log(props.upcommingFilms) }}>&larr;</button>
+                <button className={cmedia.down} onClick={() => { props.setCurrentUpcomingPage(props.currentUpcomingFilmPage + 1); props.addUpcomingFilms(props.currentUpcomingFilmPage); console.log(props.upcommingFilms) }}>&rarr;</button>
             </div>
         )
     }
