@@ -167,7 +167,7 @@ export const foundMoviesThunkCreator = (movie) => {
 
     return (dispatch) => {
         usersAPI.searchMovie(movie).then(response => {
-            dispatch(setFoundMovies(response))
+            dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
         })

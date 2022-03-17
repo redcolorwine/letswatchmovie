@@ -7,7 +7,8 @@ let mapStateToProps = (state) => {
     return {
         foundMovies: state.main.foundMovies,
         isFoundMoviesLoading: state.main.isFoundMoviesLoading,
-        searchArea: state.main.searchArea
+        searchArea: state.main.searchArea,
+        genres: state.main.genres,
     }
 }
 

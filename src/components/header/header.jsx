@@ -1,22 +1,19 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import cmedia from './header.module.css';
 import logo from '../../media/logo/logoBlack.PNG'
-import { usersAPI } from '../../api/api';
-import { useState } from 'react';
+import React from 'react';
+
+
 const Header = (props) => {
+    let nameMovieRef = React.createRef()
     let history = useNavigate();
 
     const onSearchClick = () => {
-        // history('findmovie/');
-        // usersAPI.searchMovie(searchArea).then(response => {
-        //     console.log(response.data)
-        // })
-        props.searchMovies(props.searchArea);
-        console.log(props.foundMovies)
+        props.setSearchArea(nameMovieRef.current.value)
+        props.searchMovies(nameMovieRef.current.value)
+        let nameMovie = nameMovieRef.current.value;
 
-        // if (!props.isFoundMoviesLoading) {
-        //     history('findmovie/');
-        // }
+        history(`findmovie/${nameMovie}`);
     }
     const onStatusChange = (e) => {
         props.setSearchArea(e.currentTarget.value)
@@ -32,7 +29,7 @@ const Header = (props) => {
                     <li><NavLink to="/about">О НАС</NavLink></li>
                 </nav>
 
-                <input type="search" name="q" value={props.searchArea} onChange={onStatusChange} />
+                <input type="search" name="q" ref={nameMovieRef} />
                 <button onClick={onSearchClick}>Поиск</button>
 
             </div>

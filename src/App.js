@@ -15,7 +15,7 @@ function App() {
   //Выделяем id из адресной строки браузера для последующей передачи компоненту MovieInfo
   // и формирования нового адреса этого компонента
   const { id } = useParams();
-
+  const { nameMovie } = useParams();
   return (
     <div className="App">
       <HeaderContainer />
@@ -23,7 +23,7 @@ function App() {
         {/* РОУТИНГ */}
         <Routes>
           <Route path='/' element={<MainContainer />} />
-          <Route path='findmovie' element={<FindMovieContainer />} />
+          <Route path='findmovie/:nameMovie' element={<FindMovieContainer />} />
           <Route path='/tvseries' element={<Tvseries />} />
           <Route path='/films/*' element={<Films />} />
           <Route path='/about' element={<About />} />

@@ -1,5 +1,25 @@
-.findMovie{
-    color:white;
+.findMovie {
+    color: white;
     font-family: 'Gothic MS';
     font-size: 25pt;
+}
+
+.newsBlock {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.newsBlock img {
+    cursor: pointer;
+    border-radius: 20px;
+    height: 150px;
+    width: 170px;
+    transition: 0.5s;
+}
+
+.newsBlock img:hover {
+    transform: scale(1.1, 1.1);
 }
