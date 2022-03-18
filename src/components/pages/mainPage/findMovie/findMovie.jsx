@@ -14,7 +14,7 @@ const FindMovie = (props) => {
     const testBut = () => {
         let rez;
         usersAPI.getFilmById(51273).then(response => {
-            console.log(response)
+            console.log(response.data.movie_results[0])
         })
 
         //     usersAPI.getFilmById(51273).then(response => {

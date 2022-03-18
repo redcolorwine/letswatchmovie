@@ -51,21 +51,28 @@ export const usersAPI = {
             return response;
         })
     },
-    getFilmById(filmId) {
-        let externalId;
-        return axios.get(`https://api.themoviedb.org/3/movie/${filmId}/external_ids?api_key=2c395216a9e2efaac337ffbc09ff1ee8`).then(response => {
-            return response.data.imdb_id;
+    async getFilmById(filmId) {
+        // return axios.get(`https://api.themoviedb.org/3/movie/${filmId}/external_ids?api_key=2c395216a9e2efaac337ffbc09ff1ee8`).then(response => {
+        //     return response.data.imdb_id;
+        // }).then((res) => {
+        //     debugger;
+        //     axios.get(`https://api.themoviedb.org/3/find/${res}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&external_source=imdb_id`).then(endres => {
+        //         debugger;
+        //         return endres.data.movie_results;
+        //     })
+        // })
 
-        }).then((res) => {
-            debugger;
-            axios.get(`https://api.themoviedb.org/3/find/${res}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&external_source=imdb_id`).then(endres => {
-                debugger;
-                return endres;
-            })
-        })
-
-
-
+        try {
+            var response = await axios.get(`https://api.themoviedb.org/3/movie/${filmId}/external_ids?api_key=2c395216a9e2efaac337ffbc09ff1ee8`)
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            var responseTwo = await axios.get(`https://api.themoviedb.org/3/find/${response.data.imdb_id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&external_source=imdb_id`)
+        } catch (error) {
+            console.log(error)
+        }
+        return responseTwo;
 
     }
 }
