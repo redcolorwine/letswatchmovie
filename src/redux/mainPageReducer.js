@@ -6,12 +6,12 @@ let initialState = {
     mostPopularFilms: '', //популярные фильмы
     upcommingFilms: '', //ожидаемые фильмы
     genres: '', //жанры
-    chosenFilm: 'none', //выбранный фильм для просмотра информации
     currentMainFilm: 5, //выбранный фильм для отображения на главной страницы
     currentUpcomingFilmPage: 2, //текущая страница для последующей загрузки ожидаемых фильмов (при нажатии на кнопку "далее" на главной странице)
     foundMovies: '',//Найденные фильмы при поиске через navbar
     isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
-    searchArea: ''
+    searchArea: '',
+    movieData: ''
 }
 
 //редьюсер
@@ -58,18 +58,6 @@ let mainPageReducer = (state = initialState, action) => {
                 isMovieInfoLoading: action.movieLoading
             }
         }
-        //получение данных выбранного фильма для информационной страницы
-        case 'GET_ONE_FILM':
-            //если фильм принадлежит списку популярных, то берем данные этого фильма с этого массива
-            let chose = state.mostPopularFilms.results.filter(film => film.id == action.filmId);
-            //иначе фильм из списка ожидаемых и следовательно данные берем из массива ожидаемых фильмов
-            if (chose == '') {
-                chose = state.upcommingFilms.results.filter(film => film.id == action.filmId);
-            }
-            return {
-                ...state,
-                chosenFilm: chose
-            }
         //инициализируем жанры
         case 'SET_GENRES':
             return {
@@ -107,6 +95,12 @@ let mainPageReducer = (state = initialState, action) => {
                 searchArea: action.searchArea
             }
         }
+        case 'SET_MOVIE_DATA': {
+            return {
+                ...state,
+                movieData: action.movieData
+            }
+        }
         default: return state
     }
 }
@@ -117,10 +111,8 @@ export const getMPFilmsThunkCreator = (page) => {
         //запрос к API. Передаем номер страницы ожидаемых фильмов, чтобы отобразить в разделе НОВИНКИ
         usersAPI.getFilmsForMainPage(page).then(response => {
             //Диспатчим через Action Creators в state полученные через API данные (запрос состоит из трех запросов одновременно *axios.all())
-            // dispatch(setMostPopularFilms(response[0].data.results));
             dispatch(setMostPopularFilms(response[0].data));
             dispatch(setGenres(response[1].data))
-            // dispatch(setUpcommingFilms(response[2].data.results));
             dispatch(setUpcommingFilms(response[2].data));
 
         }).then(() => {
@@ -131,33 +123,11 @@ export const getMPFilmsThunkCreator = (page) => {
     }
 
 }
-//thunk для получения фильмов информационной страницы(популярных и ожидаемых, а также жанров) Также, передаем id выбранного фильма
-export const getMovieInfoThunkCreator = (filmId, page) => {
 
-    return (dispatch) => {
-
-        usersAPI.getFilmsForMovieInfo(page).then(response => {
-            //Диспатчим через Action Creators в state полученные через API данные (запрос состоит из трех запросов одновременно *axios.all())
-            // dispatch(setMostPopularFilms(response[0].data.results));
-            dispatch(setMostPopularFilms(response[0].data));
-            dispatch(setGenres(response[1].data))
-            // dispatch(setUpcommingFilms(response[2].data.results))
-            dispatch(setUpcommingFilms(response[2].data))
-            dispatch(getOneFilm(filmId))
-
-        }).then(() => {
-            //после того как данные проинициализированы, разрешаем загрузку страницы
-            dispatch(setIsMovieInfoLoading(false));
-
-        })
-    }
-
-}
 //thunk для получения следующей страницы ожидаемых фильмов и последующего добавления их в массив ожидаемых фильмов
 export const addUpcomingFilmsThunkCreator = (page) => {
     return (dispatch) => {
         usersAPI.getUpcomingFilms(page).then(response => {
-            // dispatch(addUpcomingFilms(response.results))
             dispatch(addUpcomingFilms(response))
         })
     }
@@ -173,6 +143,16 @@ export const foundMoviesThunkCreator = (movie) => {
         })
     }
 }
+//thunk для получения фильмов информационной страницы(популярных и ожидаемых, а также жанров) Также, передаем id выбранного фильма
+export const getMovieThunkCreator = (movieId) => {
+    return (dispatch) => {
+        usersAPI.getFilmById(movieId).then(response => {
+            dispatch(setMovieData(response.data.movie_results[0]))
+        }).then(() => {
+            dispatch(setIsMovieInfoLoading(false));
+        })
+    }
+}
 //Action Creators для удобной передачи action
 export const setMostPopularFilms = (mostPopularFilms) => { return { type: 'SET_MOST_POPULAR_FILMS', mostPopularFilms } }
 export const setUpcommingFilms = (upcommingFilms) => { return { type: 'SET_UPCOMING_FILMS', upcommingFilms } }
@@ -181,9 +161,9 @@ export const setIsLoading = (loading) => { return { type: 'SET_IS_LOADING', load
 export const setIsMovieInfoLoading = (movieLoading) => { return { type: 'SET_IS_MOVIE_INFO_LOADING', movieLoading } }
 export const setIsFoundMoviesLoading = (foundMovieLoading) => { return { type: 'SET_IS_FOUND_MOVIES_LOADING', foundMovieLoading } }
 export const setCurrentMainFilm = (currentFilm) => { return { type: 'SET_CURRENT_MAIN_FILM', currentFilm } }
-export const getOneFilm = (filmId) => { return { type: 'GET_ONE_FILM', filmId } }
 export const addUpcomingFilms = (addedFilms) => { return { type: 'ADD_UPCOMING_FILMS', addedFilms } }
 export const setCurrentUpcomingPage = (currentPage) => { return { type: 'SET_UPCOMING_CURRENT_PAGE', currentPage } }
 export const setFoundMovies = (foundMovies) => { return { type: 'SET_FOUND_MOVIES', foundMovies } }
 export const setSearchArea = (searchArea) => { return { type: 'SET_SEARCH_AREA', searchArea } }
+export const setMovieData = (movieData) => { return { type: 'SET_MOVIE_DATA', movieData } }
 export default mainPageReducer;

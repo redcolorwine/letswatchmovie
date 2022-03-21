@@ -1,16 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import cmedia from './main.module.css';
 import cinema from './../../../media/logo/cinema.jpg';
 //Отображение фильма по отдельности на глявной странице
 const FilmItem = (props) => {
     //При помощи useNavigate() добавляем в адресную строку ID выбранного фильма
+
     let history = useNavigate();
     const onItemClick = () => {
-        history('movie/' + props.id);
+        history('/movie/' + props.id);
     }
 
     //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
     let genresNames = [];
+
 
     //Сверяем ID жанров текущего главного фильма с ID жанров API сервера и если ID совпадают, то загружаем их имена в массив genresNames
     for (let j = 0; j < props.genres.length; j++) {

@@ -1,5 +1,4 @@
 import './App.css';
-import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import { Route, Routes, useParams } from 'react-router-dom';
 import Tvseries from './components/pages/tvseries/tvseries';
@@ -7,15 +6,13 @@ import Films from './components/pages/films/films';
 import About from './components/pages/about/about';
 import MainContainer from './components/pages/mainPage/mainContainer';
 import MovieInfoContainer from './components/pages/mainPage/movieInfo/movieInfoContainer';
-import FindMovie from './components/pages/mainPage/findMovie/findMovie';
 import HeaderContainer from './components/header/headerContainer';
 import FindMovieContainer from './components/pages/mainPage/findMovie/findMovieContainer';
 
 function App() {
   //Выделяем id из адресной строки браузера для последующей передачи компоненту MovieInfo
   // и формирования нового адреса этого компонента
-  const { id } = useParams();
-  const { nameMovie } = useParams();
+
   return (
     <div className="App">
       <HeaderContainer />

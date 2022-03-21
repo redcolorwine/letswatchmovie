@@ -12,12 +12,9 @@ const Header = (props) => {
         props.setSearchArea(nameMovieRef.current.value)
         props.searchMovies(nameMovieRef.current.value)
         let nameMovie = nameMovieRef.current.value;
-
         history(`findmovie/${nameMovie}`);
     }
-    const onStatusChange = (e) => {
-        props.setSearchArea(e.currentTarget.value)
-    }
+
     return (
         <div className={cmedia.header}>
             <img src={logo} alt="" />

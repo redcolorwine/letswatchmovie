@@ -12,7 +12,7 @@
 .movieInfo h4 {
     font-size: 20pt;
     font-family: 'Century Gothic';
-    color:white;
+    color: white;
 }
 
 .title {
@@ -38,19 +38,28 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.title span{
-    color:rgb(255, 15, 77);
+
+.title span {
+    color: rgb(255, 15, 77);
 }
+
 .vote {
     font-size: 20pt;
 }
-.vote span{
-    color:rgb(255, 15, 77);
+
+.vote span {
+    color: rgb(255, 15, 77);
     font-size: 30pt;
 }
+
 .about {
     width: 600px;
     margin-left: 10px;
     text-align: justify;
     font-size: 14pt;
+}
+
+.notfound {
+    color: white;
+    font-size: 20pt;
 }
