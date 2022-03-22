@@ -1,1 +1,48 @@
+.about {
 
+    color: white;
+    width: 1000px;
+    margin: 0 auto;
+    font-family: 'Century Gothic';
+    /* margin: 200px; */
+}
+
+.aboutText {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    font-size: 14pt;
+    border-radius: 10px;
+    width: 1000px;
+    height: 600px;
+    text-align: justify;
+}
+
+.aboutText img {
+    width: 300px;
+    height: 400px;
+    border-radius: 20px;
+}
+
+.text {
+    width: 500px;
+}
+
+.stackTech img {
+    width: 84px;
+    height: 70px;
+    transition: 0.5s;
+}
+
+.stackTech img:hover {
+    cursor: pointer;
+    transform: scale(1.1, 1.1);
+}
+
+.stackTech {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}

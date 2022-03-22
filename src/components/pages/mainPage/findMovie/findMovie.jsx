@@ -2,18 +2,19 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FilmItem from '../filmItem';
 import cmedia from './findMovie.module.css';
-
+import preloader from './../../../../media/preloaders/preloader.svg';
 const FindMovie = (props) => {
 
     const { nameMovie } = useParams();
     useEffect(() => {
-      
+
     }, [])
-  
+
     if (props.isFoundMoviesLoading) {
+        debugger;
         return (
-            <div>
-                LOADING
+            <div className={cmedia.preloader}>
+                <img src={preloader} alt="" />
             </div>
         )
     } else {
@@ -23,7 +24,7 @@ const FindMovie = (props) => {
         })
         return (
             <div className={cmedia.findMovie}>
-                <p>Найдено по запросу {nameMovie}:</p>
+                <h3>Найдено по запросу "{nameMovie}":</h3>
                 <div className={cmedia.newsBlock}>
                     {foundMovies}
                 </div>

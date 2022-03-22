@@ -153,6 +153,36 @@ export const getMovieThunkCreator = (movieId) => {
         })
     }
 }
+//thunk для получения фильмов по id жанра
+export const getMovieWithGenreThunkCreator = (genreId) => {
+    return (dispatch) => {
+        usersAPI.searchWithGenres(genreId).then(response => {
+            dispatch(setFoundMovies(response.data))
+        }).then(() => {
+            dispatch(setIsFoundMoviesLoading(false));
+        })
+    }
+}
+//thunk для получения фильмов по годам
+export const getMovieWithYearsThunkCreator = (yearFrom, yearTo) => {
+    return (dispatch) => {
+        usersAPI.searchWithYears(yearFrom, yearTo).then(response => {
+            dispatch(setFoundMovies(response.data))
+        }).then(() => {
+            dispatch(setIsFoundMoviesLoading(false));
+        })
+    }
+}
+//thunk для получения фильмов по годам
+export const getMovieWithTrandThunkCreator = (time) => {
+    return (dispatch) => {
+        usersAPI.searchTranding(time).then(response => {
+            dispatch(setFoundMovies(response.data))
+        }).then(() => {
+            dispatch(setIsFoundMoviesLoading(false));
+        })
+    }
+}
 //Action Creators для удобной передачи action
 export const setMostPopularFilms = (mostPopularFilms) => { return { type: 'SET_MOST_POPULAR_FILMS', mostPopularFilms } }
 export const setUpcommingFilms = (upcommingFilms) => { return { type: 'SET_UPCOMING_FILMS', upcommingFilms } }

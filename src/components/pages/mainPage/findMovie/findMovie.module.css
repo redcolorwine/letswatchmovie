@@ -1,7 +1,16 @@
 .findMovie {
     color: white;
-    font-family: 'Gothic MS';
+    
     font-size: 25pt;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.findMovie h3 {
+    font-family: 'Century Gothic';
+    margin-top: 20pt;
+    font-size: 22pt;
+    font-weight: 600;
 }
 
 .newsBlock {
@@ -22,4 +31,11 @@
 
 .newsBlock img:hover {
     transform: scale(1.1, 1.1);
+}
+
+.preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

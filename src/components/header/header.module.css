@@ -1,25 +1,27 @@
 .header {
     position: sticky;
-    top:0;
+    top: 0;
     display: flex;
     justify-content: space-around;
     background-color: black;
     color: white;
     align-items: center;
 }
-.header nav{
+
+.header nav {
     display: inline;
 }
+
 .header nav li {
     list-style: none;
     display: inline;
     padding-left: 20px;
     font-size: 20pt;
-    font-family: consolas;
+    font-family: 'Century Gothic';
 }
 
 .header nav li a {
-    color: rgb(146, 146, 146);
+    color: rgb(165, 161, 178);
     font-weight: 900;
     text-decoration: none;
     transition: 0.5s;
@@ -34,25 +36,27 @@
     width: 100px;
 }
 
-.navbar{
+.navbar {
     display: flex;
     align-items: center;
 
 }
-.navbar input{
+
+.navbar input {
     display: inline;
     margin-left: 10px;
-    background-color: rgb(146, 146, 146);
-    border:1px solid rgb(146, 146, 146);
+    background-color: rgb(165, 161, 178);
+    border: 1px solid rgb(165, 161, 178);
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     outline: none;
-    color:white;
+    color: white;
 }
-.navbar button{
+
+.navbar button {
     margin-left: 1px;
     background-color: rgb(255, 15, 77);
-    color:white;
+    color: white;
     border: 1px solid rgb(255, 15, 77);
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
