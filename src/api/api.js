@@ -64,13 +64,13 @@ export const usersAPI = {
         }
         return responseTwo;
     },
-    searchWithGenres(genreId) {
-        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=${genreId}&with_watch_monetization_types=flatrate`).then(response => {
+    searchWithGenres(genreId, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}&with_genres=${genreId}&with_watch_monetization_types=flatrate`).then(response => {
             return response;
         })
     },
-    searchWithYears(yearFrom = 2010, yearTo = 2020) {
-        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&primary_release_date.gte=${yearFrom}&primary_release_date.lte=${yearTo}&with_genres=16&with_watch_monetization_types=flatrate`).then(response => {
+    searchWithYears(yearFrom = 2010, yearTo = 2020, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}&primary_release_date.gte=${yearFrom}&primary_release_date.lte=${yearTo}&with_genres=16&with_watch_monetization_types=flatrate`).then(response => {
             return response;
         })
     },

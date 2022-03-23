@@ -1,6 +1,6 @@
 .findMovie {
     color: white;
-    
+
     font-size: 25pt;
     width: 1200px;
     margin: 0 auto;
@@ -38,4 +38,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.down {
+    background-color: rgb(255, 15, 77);
+    color: white;
+    font-family: consolas;
+    font-size: 14pt;
+    font-weight: 900;
+    border: 1px solid rgb(255, 15, 77);
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px;
+    width: 70px;
 }

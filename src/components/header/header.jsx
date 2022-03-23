@@ -13,6 +13,7 @@ const Header = (props) => {
         props.searchMovies(nameMovieRef.current.value)
         let nameMovie = nameMovieRef.current.value;
         history(`findmovie/${nameMovie}`);
+        props.setFoundKey('searchMovie');
     }
 
     return (

@@ -9,6 +9,8 @@ let initialState = {
     currentMainFilm: 5, //выбранный фильм для отображения на главной страницы
     currentUpcomingFilmPage: 2, //текущая страница для последующей загрузки ожидаемых фильмов (при нажатии на кнопку "далее" на главной странице)
     foundMovies: '',//Найденные фильмы при поиске через navbar
+    foundPage: 2, //страница найденных фильмов
+    foundKey: '',//year10, year20,year22,genre,searchMovie, trand
     isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
     searchArea: '',
     movieData: ''
@@ -89,6 +91,25 @@ let mainPageReducer = (state = initialState, action) => {
                 foundMovies: action.foundMovies
             }
         }
+        case 'SET_FOUND_PAGE': {
+            if (action.foundPage < 1) {
+                return {
+                    ...state,
+                    foundPage: 20
+                }
+            } else {
+                return {
+                    ...state,
+                    foundPage: action.foundPage
+                }
+            }
+        }
+        case 'SET_FOUND_KEY': {
+            return {
+                ...state,
+                foundKey: action.foundKey
+            }
+        }
         case 'SET_SEARCH_AREA': {
             return {
                 ...state,
@@ -154,9 +175,9 @@ export const getMovieThunkCreator = (movieId) => {
     }
 }
 //thunk для получения фильмов по id жанра
-export const getMovieWithGenreThunkCreator = (genreId) => {
+export const getMovieWithGenreThunkCreator = (genreId, page) => {
     return (dispatch) => {
-        usersAPI.searchWithGenres(genreId).then(response => {
+        usersAPI.searchWithGenres(genreId, page).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
@@ -164,9 +185,9 @@ export const getMovieWithGenreThunkCreator = (genreId) => {
     }
 }
 //thunk для получения фильмов по годам
-export const getMovieWithYearsThunkCreator = (yearFrom, yearTo) => {
+export const getMovieWithYearsThunkCreator = (yearFrom, yearTo, page) => {
     return (dispatch) => {
-        usersAPI.searchWithYears(yearFrom, yearTo).then(response => {
+        usersAPI.searchWithYears(yearFrom, yearTo, page).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
@@ -196,4 +217,6 @@ export const setCurrentUpcomingPage = (currentPage) => { return { type: 'SET_UPC
 export const setFoundMovies = (foundMovies) => { return { type: 'SET_FOUND_MOVIES', foundMovies } }
 export const setSearchArea = (searchArea) => { return { type: 'SET_SEARCH_AREA', searchArea } }
 export const setMovieData = (movieData) => { return { type: 'SET_MOVIE_DATA', movieData } }
+export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
+export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', foundKey } }
 export default mainPageReducer;

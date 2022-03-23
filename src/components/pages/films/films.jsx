@@ -1,39 +1,43 @@
 import cmedia from './films.module.css';
-import { usersAPI } from '../../../api/api';
 import { useNavigate } from 'react-router-dom';
 const Films = (props) => {
     let history = useNavigate();
     const onGenreClick = (event) => {
         props.searchMoviesWithGenre(event.target.id);
         history(`/findmovie/${event.target.getAttribute('value')}`);
+        props.setFoundKey({ name: 'genre', id: event.target.id });
     }
 
     const onYearClick = (event) => {
         switch (event.target.id) {
             case "1990":
-                debugger;
                 props.searchMovieWithYears(1990, 1999);
                 history(`/findmovie/${event.target.id}`);
+                props.setFoundKey({ name: 'year90', from: 1990, to: 1999 });
                 break;
             case "2000":
                 props.searchMovieWithYears(2000, 2009);
                 history(`/findmovie/${event.target.id}`);
+                props.setFoundKey({ name: 'year10', from: 2000, to: 2009 });
                 break;
             case "2010":
                 props.searchMovieWithYears(2010, 2019);
                 history(`/findmovie/${event.target.id}`);
+                props.setFoundKey({ name: 'year20', from: 2010, to: 2019 });
                 break;
             case "2020":
                 props.searchMovieWithYears(2020, 2022);
                 history(`/findmovie/${event.target.id}`);
+                props.setFoundKey({ name: 'year22', from: 2020, to: 2022 });
                 break;
             default: alert('Неизвестная ошибка!');
         }
 
     }
     const onTrandClick = (event) => {
-        props.searchMovieWithTrand(event.target.getAttribute('value'));
+        props.searchMovieWithTrand(event.target.id);
         history(`/findmovie/${event.target.getAttribute('value')}`);
+        props.setFoundKey('trand');
     }
     return (
         <div className={cmedia.films}>
@@ -89,8 +93,8 @@ const Films = (props) => {
                     <h3>Тренды:</h3>
                     <p>Унай, какие фильмы находятся в трендах дня и недели!</p>
                     <nav>
-                        <li onClick={onTrandClick} id="day" value="day" className={cmedia.day}>День</li>
-                        <li onClick={onTrandClick} id="week" value="week" className={cmedia.week}>Неделя</li>
+                        <li onClick={onTrandClick} id="day" value="Тренды дня" className={cmedia.day}>День</li>
+                        <li onClick={onTrandClick} id="week" value="Тренды недели" className={cmedia.week}>Неделя</li>
                     </nav>
                 </div>
             </div>
