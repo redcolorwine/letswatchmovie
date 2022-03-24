@@ -9,6 +9,8 @@ import MovieInfoContainer from './components/pages/mainPage/movieInfo/movieInfoC
 import HeaderContainer from './components/header/headerContainer';
 import FindMovieContainer from './components/pages/mainPage/findMovie/findMovieContainer';
 import FilmsContainer from './components/pages/films/filmsContainer';
+import TvSeriesContainer from './components/pages/tvseries/tvseriesContainer';
+import TVInfoContainer from './components/pages/mainPage/tvInfo/tvInfoContainer';
 
 function App() {
   //Выделяем id из адресной строки браузера для последующей передачи компоненту MovieInfo
@@ -22,12 +24,13 @@ function App() {
         <Routes>
           <Route path='/' element={<MainContainer />} />
           <Route path='findmovie/:nameMovie' element={<FindMovieContainer />} />
-          <Route path='/tvseries' element={<Tvseries />} />
+          <Route path='/tvseries' element={<TvSeriesContainer />} />
           <Route path='/films/*' element={<FilmsContainer />} />
           <Route path='/about' element={<About />} />
           {/* Передаем id в адресную строку компонента MovieInfo, чтобы для каждого фильма была уникальная страница */}
           <Route path={`/movie/:id`} element={<MovieInfoContainer />} />
           {/* Если введен неверный путь, что будет рендериться главная компонента */}
+          <Route path={`/tv/:id`} element={<TVInfoContainer />} />
           <Route path='*' element={<MainContainer />} />
         </Routes>
       </div>

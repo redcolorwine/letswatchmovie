@@ -26,6 +26,14 @@ export const usersAPI = {
             return response
         })
     },
+    getTVSeries(page = 1) {
+        return axios.all([
+            axios.get(`https://api.themoviedb.org/3/discover/tv?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&page=${page}&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0`),
+            axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
+        ]).then(response => {
+            return response
+        })
+    },
     getFilmsForMovieInfo(page = 1) {
         return axios.all([
             axios.get('https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_watch_monetization_types=flatrate'),
@@ -46,6 +54,11 @@ export const usersAPI = {
             return response.data
         });
     },
+    getTVgenres() {
+        return axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
+            return response.data
+        })
+    },
     searchMovie(query = 'Путешествие') {
         return axios.get(`https://api.themoviedb.org/3/search/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&query=${query}`).then(response => {
             return response;
@@ -54,6 +67,19 @@ export const usersAPI = {
     async getFilmById(filmId) {
         try {
             var response = await axios.get(`https://api.themoviedb.org/3/movie/${filmId}/external_ids?api_key=2c395216a9e2efaac337ffbc09ff1ee8`)
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            var responseTwo = await axios.get(`https://api.themoviedb.org/3/find/${response.data.imdb_id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&external_source=imdb_id`)
+        } catch (error) {
+            console.log(error)
+        }
+        return responseTwo;
+    },
+    async getTVbyID(tvId) {
+        try {
+            var response = await axios.get(`https://api.themoviedb.org/3/tv/${tvId}/external_ids?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
         } catch (error) {
             console.log(error)
         }

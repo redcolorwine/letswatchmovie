@@ -1,0 +1,65 @@
+.movieInfo {
+    color: rgb(165, 161, 178);
+    text-align: center;
+}
+
+.movieInfo img {
+    width: 800px;
+    height: 500px;
+
+}
+
+.movieInfo h4 {
+    font-size: 20pt;
+    font-family: 'Century Gothic';
+    color: white;
+}
+
+.title {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.title p {
+    text-align: left;
+    font-family: 'Century Gothic';
+}
+
+.description {
+    margin: 0 auto;
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title span {
+    color: rgb(255, 15, 77);
+}
+
+.vote {
+    font-size: 20pt;
+}
+
+.vote span {
+    color: rgb(255, 15, 77);
+    font-size: 30pt;
+}
+
+.about {
+    width: 600px;
+    margin-left: 10px;
+    text-align: justify;
+    font-size: 14pt;
+}
+
+.notfound {
+    color: white;
+    font-size: 20pt;
+}

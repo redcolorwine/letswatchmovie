@@ -3,6 +3,8 @@ import { usersAPI } from '../api/api';
 let initialState = {
     isMainPageLoading: true, //производится ли загрузка главной страницы
     isMovieInfoLoading: true,//производится ли загрузка информационной страницы
+    isTVInfoLoading: true,
+    isTVSeriesLoading: true,
     mostPopularFilms: '', //популярные фильмы
     upcommingFilms: '', //ожидаемые фильмы
     genres: '', //жанры
@@ -13,7 +15,10 @@ let initialState = {
     foundKey: '',//year10, year20,year22,genre,searchMovie, trand
     isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
     searchArea: '',
-    movieData: ''
+    movieData: '',
+    trandTVSeries: '',
+    tvGenres: '',
+    tvData: ''
 }
 
 //редьюсер
@@ -24,6 +29,11 @@ let mainPageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 mostPopularFilms: action.mostPopularFilms
+            }
+        case 'SET_TRAND_TVSERIES':
+            return {
+                ...state,
+                trandTVSeries: action.trandTVSeries
             }
         //инициализация ожидаемых фильмов    
         case 'SET_UPCOMING_FILMS':
@@ -60,11 +70,28 @@ let mainPageReducer = (state = initialState, action) => {
                 isMovieInfoLoading: action.movieLoading
             }
         }
+        case 'SET_IS_TV_INFO_LOADING': {
+            return {
+                ...state,
+                isTVInfoLoading: action.tvLoading
+            }
+        }
+        case 'SET_IS_TVSERIES_LOADING': {
+            return {
+                ...state,
+                isTVSeriesLoading: action.seriesLoading
+            }
+        }
         //инициализируем жанры
         case 'SET_GENRES':
             return {
                 ...state,
                 genres: action.genres
+            }
+        case 'SET_TV_GENRES':
+            return {
+                ...state,
+                tvGenres: action.tvGenres
             }
         //устанавливаем текущий главный фильм
         case 'SET_CURRENT_MAIN_FILM':
@@ -122,6 +149,12 @@ let mainPageReducer = (state = initialState, action) => {
                 movieData: action.movieData
             }
         }
+        case 'SET_TV_DATA': {
+            return {
+                ...state,
+                tvData: action.tvData
+            }
+        }
         default: return state
     }
 }
@@ -144,7 +177,16 @@ export const getMPFilmsThunkCreator = (page) => {
     }
 
 }
-
+export const getTrandTVSeries = (page) => {
+    return (dispatch) => {
+        usersAPI.getTVSeries(page).then(response => {
+            dispatch(setTrandTVSeries(response[0].data));
+            dispatch(setTVGenres(response[1].data));
+        }).then(() => {
+            dispatch(setIsTvSeriesLoading(false));
+        })
+    }
+}
 //thunk для получения следующей страницы ожидаемых фильмов и последующего добавления их в массив ожидаемых фильмов
 export const addUpcomingFilmsThunkCreator = (page) => {
     return (dispatch) => {
@@ -171,6 +213,17 @@ export const getMovieThunkCreator = (movieId) => {
             dispatch(setMovieData(response.data.movie_results[0]))
         }).then(() => {
             dispatch(setIsMovieInfoLoading(false));
+        })
+    }
+}
+export const getTVThunkCreator = (tvId) => {
+    return (dispatch) => {
+        usersAPI.getTVbyID(tvId).then(response => {
+            debugger;
+            dispatch(setTVData(response.data.tv_results[0]))
+        }).then(() => {
+            debugger;
+            dispatch(setIsTVInfoLoading(false));
         })
     }
 }
@@ -207,16 +260,21 @@ export const getMovieWithTrandThunkCreator = (time) => {
 //Action Creators для удобной передачи action
 export const setMostPopularFilms = (mostPopularFilms) => { return { type: 'SET_MOST_POPULAR_FILMS', mostPopularFilms } }
 export const setUpcommingFilms = (upcommingFilms) => { return { type: 'SET_UPCOMING_FILMS', upcommingFilms } }
+export const setTrandTVSeries = (trandTVSeries) => { return { type: 'SET_TRAND_TVSERIES', trandTVSeries } }
 export const setGenres = (genres) => { return { type: 'SET_GENRES', genres } }
+export const setTVGenres = (tvGenres) => { return { type: 'SET_TV_GENRES', tvGenres } }
 export const setIsLoading = (loading) => { return { type: 'SET_IS_LOADING', loading } }
 export const setIsMovieInfoLoading = (movieLoading) => { return { type: 'SET_IS_MOVIE_INFO_LOADING', movieLoading } }
+export const setIsTVInfoLoading = (isTVInfoLoading) => { return { type: 'SET_IS_TV_INFO_LOADING', isTVInfoLoading } }
 export const setIsFoundMoviesLoading = (foundMovieLoading) => { return { type: 'SET_IS_FOUND_MOVIES_LOADING', foundMovieLoading } }
+export const setIsTvSeriesLoading = (seriesLoading) => { return { type: 'SET_IS_TVSERIES_LOADING', seriesLoading } }
 export const setCurrentMainFilm = (currentFilm) => { return { type: 'SET_CURRENT_MAIN_FILM', currentFilm } }
 export const addUpcomingFilms = (addedFilms) => { return { type: 'ADD_UPCOMING_FILMS', addedFilms } }
 export const setCurrentUpcomingPage = (currentPage) => { return { type: 'SET_UPCOMING_CURRENT_PAGE', currentPage } }
 export const setFoundMovies = (foundMovies) => { return { type: 'SET_FOUND_MOVIES', foundMovies } }
 export const setSearchArea = (searchArea) => { return { type: 'SET_SEARCH_AREA', searchArea } }
 export const setMovieData = (movieData) => { return { type: 'SET_MOVIE_DATA', movieData } }
+export const setTVData = (tvData) => { return { type: 'SET_TV_DATA', tvData } }
 export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
 export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', foundKey } }
 export default mainPageReducer;

@@ -7,7 +7,11 @@ const FilmItem = (props) => {
 
     let history = useNavigate();
     const onItemClick = () => {
-        history('/movie/' + props.id);
+        if (props.type != 'tv') {
+            history('/movie/' + props.id);
+        } else {
+            history('/tv/' + props.id);
+        }
     }
 
     //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
