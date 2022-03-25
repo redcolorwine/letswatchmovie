@@ -41,7 +41,7 @@ const TVInfo = (props) => {
 
                 <div className={cmedia.title}>
                     <h4>{props.tvData.title}</h4>
-                    <p>Дата выхода: <span>{props.tvData.release_date}</span> </p>
+                    <p>Дата выхода: <span>{props.tvData.first_air_date}</span> </p>
                     <p>Жанр: <span>{genres}</span></p>
                     <p>Возрастные ограничения: {props.tvData.adult ? <span>18+</span> : <span>нет</span>}</p>
                     <img src={`https://image.tmdb.org/t/p/w500/${props.tvData.backdrop_path}`} alt="" />

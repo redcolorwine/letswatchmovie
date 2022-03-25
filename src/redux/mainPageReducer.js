@@ -1,40 +1,46 @@
 import { usersAPI } from '../api/api';
 //данные для инициализации начального state
 let initialState = {
-    isMainPageLoading: true, //производится ли загрузка главной страницы
-    isMovieInfoLoading: true,//производится ли загрузка информационной страницы
-    isTVInfoLoading: true,
-    isTVSeriesLoading: true,
+    //Фильмы
+    //Данные фильмов
     mostPopularFilms: '', //популярные фильмы
     upcommingFilms: '', //ожидаемые фильмы
+    movieData: '',//данные конкретного фильма
     genres: '', //жанры
     currentMainFilm: 5, //выбранный фильм для отображения на главной страницы
     currentUpcomingFilmPage: 2, //текущая страница для последующей загрузки ожидаемых фильмов (при нажатии на кнопку "далее" на главной странице)
+
+    //Загрузчики
+    isMainPageLoading: true, //производится ли загрузка главной страницы
+    isMovieInfoLoading: true,//производится ли загрузка информационной страницы
+    isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
+
+    //Поиск фильмов
     foundMovies: '',//Найденные фильмы при поиске через navbar
     foundPage: 2, //страница найденных фильмов
     foundKey: '',//year10, year20,year22,genre,searchMovie, trand
-    isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
-    searchArea: '',
-    movieData: '',
+    searchArea: '', //Строка поиска
+
+    //Сериалы
+    isTVInfoLoading: true,
+    isTVSeriesLoading: true,
     trandTVSeries: '',
     tvGenres: '',
-    tvData: ''
+    tvData: '',
+    topRatedTv: '',
 }
 
 //редьюсер
 let mainPageReducer = (state = initialState, action) => {
     switch (action.type) {
+        //ФИЛЬМЫ
         //инициализация популярных фильмов
         case 'SET_MOST_POPULAR_FILMS':
             return {
                 ...state,
                 mostPopularFilms: action.mostPopularFilms
             }
-        case 'SET_TRAND_TVSERIES':
-            return {
-                ...state,
-                trandTVSeries: action.trandTVSeries
-            }
+
         //инициализация ожидаемых фильмов    
         case 'SET_UPCOMING_FILMS':
             return {
@@ -70,29 +76,13 @@ let mainPageReducer = (state = initialState, action) => {
                 isMovieInfoLoading: action.movieLoading
             }
         }
-        case 'SET_IS_TV_INFO_LOADING': {
-            return {
-                ...state,
-                isTVInfoLoading: action.tvLoading
-            }
-        }
-        case 'SET_IS_TVSERIES_LOADING': {
-            return {
-                ...state,
-                isTVSeriesLoading: action.seriesLoading
-            }
-        }
         //инициализируем жанры
         case 'SET_GENRES':
             return {
                 ...state,
                 genres: action.genres
             }
-        case 'SET_TV_GENRES':
-            return {
-                ...state,
-                tvGenres: action.tvGenres
-            }
+
         //устанавливаем текущий главный фильм
         case 'SET_CURRENT_MAIN_FILM':
             return {
@@ -149,10 +139,39 @@ let mainPageReducer = (state = initialState, action) => {
                 movieData: action.movieData
             }
         }
+        //СЕРИАЛЫ    
+        case 'SET_TRAND_TVSERIES':
+            return {
+                ...state,
+                trandTVSeries: action.trandTVSeries
+            }
+        case 'SET_TV_GENRES':
+            return {
+                ...state,
+                tvGenres: action.tvGenres
+            }
         case 'SET_TV_DATA': {
             return {
                 ...state,
                 tvData: action.tvData
+            }
+        }
+        case 'SET_TOP_RATED_TV': {
+            return {
+                ...state,
+                topRatedTv: action.topRatedTv
+            }
+        }
+        case 'SET_IS_TVSERIES_LOADING': {
+            return {
+                ...state,
+                isTVSeriesLoading: action.seriesLoading
+            }
+        }
+        case 'SET_IS_TV_INFO_LOADING': {
+            return {
+                ...state,
+                isTVInfoLoading: action.tvLoading
             }
         }
         default: return state
@@ -184,6 +203,13 @@ export const getTrandTVSeries = (page) => {
             dispatch(setTVGenres(response[1].data));
         }).then(() => {
             dispatch(setIsTvSeriesLoading(false));
+        })
+    }
+}
+export const getTopRatedTV = (page) => {
+    return (dispatch) => {
+        usersAPI.searchTopRatedTV(page).then(response => {
+            dispatch(setTopRatedTv(response.data));
         })
     }
 }
@@ -275,6 +301,7 @@ export const setFoundMovies = (foundMovies) => { return { type: 'SET_FOUND_MOVIE
 export const setSearchArea = (searchArea) => { return { type: 'SET_SEARCH_AREA', searchArea } }
 export const setMovieData = (movieData) => { return { type: 'SET_MOVIE_DATA', movieData } }
 export const setTVData = (tvData) => { return { type: 'SET_TV_DATA', tvData } }
+export const setTopRatedTv = (topRatedTv) => { return { type: 'SET_TOP_RATED_TV', topRatedTv } }
 export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
 export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', foundKey } }
 export default mainPageReducer;

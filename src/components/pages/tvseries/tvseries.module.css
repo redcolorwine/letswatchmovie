@@ -7,8 +7,13 @@
 
 .tvseries {
     color: white;
+    width: 1200px;
+    margin: 0 auto;
 }
-
+.tvseries h3{
+    font-size: 24pt;
+    font-family: 'Century Gothic';
+}
 .newsBlock {
     width: 1200px;
     margin: 0 auto;

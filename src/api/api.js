@@ -104,5 +104,10 @@ export const usersAPI = {
         return axios.get(`https://api.themoviedb.org/3/trending/movie/${time}?api_key=2c395216a9e2efaac337ffbc09ff1ee8`).then(response => {
             return response;
         })
+    },
+    searchTopRatedTV(page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/tv/top_rated?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`).then(response => {
+            return response;
+        })
     }
 }
