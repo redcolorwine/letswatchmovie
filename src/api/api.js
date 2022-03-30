@@ -51,18 +51,16 @@ export const usersAPI = {
     },
     getGenres() {
         return axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU').then(response => {
-            return response.data
+            return response
         });
     },
     getTVgenres() {
         return axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
-            return response.data
+            return response
         })
     },
-    searchMovie(query = 'Путешествие') {
-        return axios.get(`https://api.themoviedb.org/3/search/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&query=${query}`).then(response => {
-            return response;
-        })
+    searchMovie(query = 'Путешествие', page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/search/multi?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&query=${query}&page=${page}&include_adult=true`)
     },
     async getFilmById(filmId) {
         try {
@@ -108,6 +106,16 @@ export const usersAPI = {
     searchTopRatedTV(page = 1) {
         return axios.get(`https://api.themoviedb.org/3/tv/top_rated?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`).then(response => {
             return response;
+        })
+    },
+    getMovieVideos(id) {
+        return axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
+            return response.data.results;
+        })
+    },
+    getTvVideos(id) {
+        return axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
+            return response.data.results;
         })
     }
 }

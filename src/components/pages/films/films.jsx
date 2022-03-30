@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 const Films = (props) => {
     let history = useNavigate();
     const onGenreClick = (event) => {
+        props.getGenres();
         props.searchMoviesWithGenre(event.target.id);
         history(`/findmovie/${event.target.getAttribute('value')}`);
         props.setFoundKey({ name: 'genre', id: event.target.id });
@@ -11,21 +12,25 @@ const Films = (props) => {
     const onYearClick = (event) => {
         switch (event.target.id) {
             case "1990":
+                props.getGenres();
                 props.searchMovieWithYears(1990, 1999);
                 history(`/findmovie/${event.target.id}`);
                 props.setFoundKey({ name: 'year90', from: 1990, to: 1999 });
                 break;
             case "2000":
+                props.getGenres();
                 props.searchMovieWithYears(2000, 2009);
                 history(`/findmovie/${event.target.id}`);
                 props.setFoundKey({ name: 'year10', from: 2000, to: 2009 });
                 break;
             case "2010":
+                props.getGenres();
                 props.searchMovieWithYears(2010, 2019);
                 history(`/findmovie/${event.target.id}`);
                 props.setFoundKey({ name: 'year20', from: 2010, to: 2019 });
                 break;
             case "2020":
+                props.getGenres();
                 props.searchMovieWithYears(2020, 2022);
                 history(`/findmovie/${event.target.id}`);
                 props.setFoundKey({ name: 'year22', from: 2020, to: 2022 });
@@ -35,6 +40,7 @@ const Films = (props) => {
 
     }
     const onTrandClick = (event) => {
+        props.getGenres();
         props.searchMovieWithTrand(event.target.id);
         history(`/findmovie/${event.target.getAttribute('value')}`);
         props.setFoundKey('trand');

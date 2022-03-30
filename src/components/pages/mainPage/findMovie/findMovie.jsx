@@ -60,7 +60,7 @@ const FindMovie = (props) => {
     } else {
         console.log((props.foundKey))
         let foundMovies = props.foundMovies.results.map((film) => {
-            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} />)
+            return (<FilmItem genresNames={props.genres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date ? film.release_date : film.first_air_date} title={film.title ? film.title : film.name} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} type={film.name ? 'tv' : 'movie'} />)
         })
         return (
             <div className={cmedia.findMovie}>

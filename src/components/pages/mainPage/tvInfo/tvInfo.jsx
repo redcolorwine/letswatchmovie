@@ -9,6 +9,8 @@ const TVInfo = (props) => {
 
     //После отрисовки компоненты получаем данные выбранного фильм полученные из API
     useEffect(() => {
+        props.getVideosTV(id);
+        props.getTVGenres();
         props.getTV(id);
     }, [])
 
@@ -18,10 +20,10 @@ const TVInfo = (props) => {
     </div>)
 
     else if (props.tvData != undefined) {
+        debugger;
         //Иначе загружаем основные данные
         //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
         let genresNames = [];
-        console.log(props.tvData)
         //Сверяем ID жанров текущего главного фильма с ID жанров API сервера и если ID совпадают, то загружаем их имена в массив genresNames
         for (let j = 0; j < props.tvData.genre_ids.length; j++) {
             for (let i = 0; i < props.tvGenres.genres.length; i++) {
@@ -33,6 +35,14 @@ const TVInfo = (props) => {
         //Создаем блоки span из имен жанров
         let genres = genresNames.map((genre) => {
             return (<span key={genre}>{genre} </span>)
+        })
+        let linksYouTube = props.ytLinks.map(el => {
+            return (<><iframe width="800" height="400"
+                src={`https://www.youtube.com/embed/${el.key}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen>
+            </iframe><br></br></>)
         })
 
         //Отрисовка
@@ -51,6 +61,12 @@ const TVInfo = (props) => {
                     <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.tvData.vote_average != 0 ? props.tvData.vote_average : 'ожидается'}</span> </p>
                     <p className={cmedia.about}>{props.tvData.overview}</p>
                 </div>
+                {linksYouTube != '' &&
+                    <>
+                        <h3>Смотреть трейлер:</h3>
+                        {linksYouTube}
+                    </>
+                }
 
             </div>
         )

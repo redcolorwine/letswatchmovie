@@ -28,6 +28,9 @@ let initialState = {
     tvGenres: '',
     tvData: '',
     topRatedTv: '',
+
+    //YouTube ссылки
+    ytLinks: ''
 }
 
 //редьюсер
@@ -174,6 +177,13 @@ let mainPageReducer = (state = initialState, action) => {
                 isTVInfoLoading: action.tvLoading
             }
         }
+
+        case 'SET_YOUTUBE_LINKS': {
+            return {
+                ...state,
+                ytLinks: action.ytLinks
+            }
+        }
         default: return state
     }
 }
@@ -203,6 +213,21 @@ export const getTrandTVSeries = (page) => {
             dispatch(setTVGenres(response[1].data));
         }).then(() => {
             dispatch(setIsTvSeriesLoading(false));
+        })
+    }
+}
+export const getTVGenres = () => {
+    return (dispatch) => {
+        usersAPI.getTVgenres().then(response => {
+            dispatch(setTVGenres(response.data))
+        })
+    }
+}
+
+export const getMovieGenres = () => {
+    return (dispatch) => {
+        usersAPI.getGenres().then(response => {
+            dispatch(setGenres(response.data));
         })
     }
 }
@@ -244,12 +269,27 @@ export const getMovieThunkCreator = (movieId) => {
 }
 export const getTVThunkCreator = (tvId) => {
     return (dispatch) => {
+
         usersAPI.getTVbyID(tvId).then(response => {
-            debugger;
             dispatch(setTVData(response.data.tv_results[0]))
         }).then(() => {
-            debugger;
+
             dispatch(setIsTVInfoLoading(false));
+        })
+    }
+}
+export const getVideosTV = (tvId) => {
+    return (dispatch) => {
+        usersAPI.getTvVideos(tvId).then(response => {
+
+            dispatch(setYouTubeLinks(response));
+        })
+    }
+}
+export const getVideosMovie = (movieId) => {
+    return (dispatch) => {
+        usersAPI.getMovieVideos(movieId).then(response => {
+            dispatch(setYouTubeLinks(response));
         })
     }
 }
@@ -304,4 +344,5 @@ export const setTVData = (tvData) => { return { type: 'SET_TV_DATA', tvData } }
 export const setTopRatedTv = (topRatedTv) => { return { type: 'SET_TOP_RATED_TV', topRatedTv } }
 export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
 export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', foundKey } }
+export const setYouTubeLinks = (ytLinks) => { return { type: 'SET_YOUTUBE_LINKS', ytLinks } }
 export default mainPageReducer;

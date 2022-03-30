@@ -9,6 +9,8 @@ const MovieInfo = (props) => {
 
     //После отрисовки компоненты получаем данные выбранного фильм полученные из API
     useEffect(() => {
+        props.getVideosMovie(id);
+        props.getGenres();
         props.getMovie(id);
     }, [])
 
@@ -35,7 +37,14 @@ const MovieInfo = (props) => {
         let genres = genresNames.map((genre) => {
             return (<span key={genre}>{genre} </span>)
         })
-
+        let linksYouTube = props.ytLinks.map(el => {
+            return (<><iframe width="800" height="400"
+                src={`https://www.youtube.com/embed/${el.key}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen>
+            </iframe><br></br></>)
+        })
         //Отрисовка
         return (
             <div className={cmedia.movieInfo}>
@@ -52,7 +61,12 @@ const MovieInfo = (props) => {
                     <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.movieData.vote_average != 0 ? props.movieData.vote_average : 'ожидается'}</span> </p>
                     <p className={cmedia.about}>{props.movieData.overview}</p>
                 </div>
-
+                {linksYouTube != '' &&
+                    <>
+                        <h3>Смотреть трейлер:</h3>
+                        {linksYouTube}
+                    </>
+                }
             </div>
         )
     } else {

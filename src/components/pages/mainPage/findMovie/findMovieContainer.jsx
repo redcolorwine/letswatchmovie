@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { getMovieWithGenreThunkCreator, getMovieWithYearsThunkCreator, setFoundPage } from "../../../../redux/mainPageReducer"
+import { getMovieGenres, getMovieWithGenreThunkCreator, getMovieWithYearsThunkCreator, setFoundPage } from "../../../../redux/mainPageReducer"
 import FindMovie from "./findMovie"
 
 

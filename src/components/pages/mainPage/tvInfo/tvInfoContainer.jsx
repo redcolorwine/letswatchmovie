@@ -1,12 +1,13 @@
 import { connect } from "react-redux"
-import { getTVThunkCreator } from "../../../../redux/mainPageReducer"
+import { getTVGenres, getTVThunkCreator, getVideosTV } from "../../../../redux/mainPageReducer"
 import TVInfo from "./tvInfo"
 
 let mapStateToProps = (state) => {
     return {
         tvGenres: state.main.tvGenres,
         isTVInfoLoading: state.main.isTVInfoLoading,
-        tvData: state.main.tvData
+        tvData: state.main.tvData,
+        ytLinks: state.main.ytLinks
     }
 }
 
@@ -15,6 +16,12 @@ let mapDispatchToProps = (dispatch) => {
         //Получени данных выбранного фильма
         getTV: (tvId) => {
             dispatch(getTVThunkCreator(tvId))
+        },
+        getVideosTV: (tvId) => {
+            dispatch(getVideosTV(tvId));
+        },
+        getTVGenres: () => {
+            dispatch(getTVGenres());
         }
     }
 }

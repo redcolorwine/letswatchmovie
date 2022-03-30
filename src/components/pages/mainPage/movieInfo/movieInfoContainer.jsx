@@ -1,12 +1,13 @@
 import { connect } from "react-redux"
-import {getMovieThunkCreator } from "../../../../redux/mainPageReducer"
+import { getMovieGenres, getMovieThunkCreator, getVideosMovie } from "../../../../redux/mainPageReducer"
 import MovieInfo from "./movieInfo"
 
 let mapStateToProps = (state) => {
     return {
         genresNames: state.main.genres,
         isMovieInfoLoading: state.main.isMovieInfoLoading,
-        movieData: state.main.movieData
+        movieData: state.main.movieData,
+        ytLinks: state.main.ytLinks
     }
 }
 
@@ -15,6 +16,12 @@ let mapDispatchToProps = (dispatch) => {
         //Получени данных выбранного фильма
         getMovie: (movieId) => {
             dispatch(getMovieThunkCreator(movieId))
+        },
+        getVideosMovie: (movieId) => {
+            dispatch(getVideosMovie(movieId));
+        },
+        getGenres: () => {
+            dispatch(getMovieGenres());
         }
     }
 }
