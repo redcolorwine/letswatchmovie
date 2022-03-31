@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { getTVGenres, getTVThunkCreator, getVideosTV } from "../../../../redux/mainPageReducer"
+import { getSimilarTv, getTVGenres, getTVThunkCreator, getVideosTV } from "../../../../redux/mainPageReducer"
 import TVInfo from "./tvInfo"
 
 let mapStateToProps = (state) => {
@@ -7,7 +7,8 @@ let mapStateToProps = (state) => {
         tvGenres: state.main.tvGenres,
         isTVInfoLoading: state.main.isTVInfoLoading,
         tvData: state.main.tvData,
-        ytLinks: state.main.ytLinks
+        ytLinks: state.main.ytLinks,
+        similarTv: state.main.similarTv
     }
 }
 
@@ -22,6 +23,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         getTVGenres: () => {
             dispatch(getTVGenres());
+        },
+        getSimilar: (id) => {
+            dispatch(getSimilarTv(id));
         }
     }
 }

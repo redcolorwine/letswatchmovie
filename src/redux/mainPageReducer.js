@@ -9,6 +9,8 @@ let initialState = {
     genres: '', //жанры
     currentMainFilm: 5, //выбранный фильм для отображения на главной страницы
     currentUpcomingFilmPage: 2, //текущая страница для последующей загрузки ожидаемых фильмов (при нажатии на кнопку "далее" на главной странице)
+    similarMovie: '',
+    detailsMovie: '',
 
     //Загрузчики
     isMainPageLoading: true, //производится ли загрузка главной страницы
@@ -28,7 +30,8 @@ let initialState = {
     tvGenres: '',
     tvData: '',
     topRatedTv: '',
-
+    similarTv: '',
+    detailsTv: '',
     //YouTube ссылки
     ytLinks: ''
 }
@@ -43,7 +46,16 @@ let mainPageReducer = (state = initialState, action) => {
                 ...state,
                 mostPopularFilms: action.mostPopularFilms
             }
-
+        case 'SET_SIMILAR_MOVIE':
+            return {
+                ...state,
+                similarMovie: action.similarMovie
+            }
+        case 'SET_DETAILS_MOVIE':
+            return {
+                ...state,
+                detailsMovie: action.detailsMovie
+            }
         //инициализация ожидаемых фильмов    
         case 'SET_UPCOMING_FILMS':
             return {
@@ -148,6 +160,11 @@ let mainPageReducer = (state = initialState, action) => {
                 ...state,
                 trandTVSeries: action.trandTVSeries
             }
+        case 'SET_DETAILS_TV':
+            return {
+                ...state,
+                detailsTv: action.detailsTv
+            }
         case 'SET_TV_GENRES':
             return {
                 ...state,
@@ -157,6 +174,12 @@ let mainPageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 tvData: action.tvData
+            }
+        }
+        case 'SET_SIMILAR_TV': {
+            return {
+                ...state,
+                similarTv: action.similarTv
             }
         }
         case 'SET_TOP_RATED_TV': {
@@ -323,6 +346,36 @@ export const getMovieWithTrandThunkCreator = (time) => {
         })
     }
 }
+
+export const getSimilarMovie = (movieId, page) => {
+    return (dispatch) => {
+        debugger;
+        usersAPI.getSimilarMovie(movieId, page).then(response => {
+            dispatch(setSimilarMovie(response.data));
+        })
+    }
+}
+export const getSimilarTv = (tvId, page) => {
+    return (dispatch) => {
+        usersAPI.getSimilarTV(tvId, page).then(response => {
+            dispatch(setSimilarTv(response.data));
+        })
+    }
+}
+export const getDetailsMovie = (movieId) => {
+    return (dispatch) => {
+        usersAPI.getDetailsMovie(movieId).then(response => {
+            dispatch(setDetailsMovie(response));
+        })
+    }
+}
+export const getDetailsTv = (tvId) => {
+    return (dispatch) => {
+        usersAPI.getDetailsTv(tvId).then(response => {
+            dispatch(setDetailsTv(response));
+        })
+    }
+}
 //Action Creators для удобной передачи action
 export const setMostPopularFilms = (mostPopularFilms) => { return { type: 'SET_MOST_POPULAR_FILMS', mostPopularFilms } }
 export const setUpcommingFilms = (upcommingFilms) => { return { type: 'SET_UPCOMING_FILMS', upcommingFilms } }
@@ -345,4 +398,8 @@ export const setTopRatedTv = (topRatedTv) => { return { type: 'SET_TOP_RATED_TV'
 export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
 export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', foundKey } }
 export const setYouTubeLinks = (ytLinks) => { return { type: 'SET_YOUTUBE_LINKS', ytLinks } }
+export const setSimilarMovie = (similarMovie) => { return { type: 'SET_SIMILAR_MOVIE', similarMovie } }
+export const setSimilarTv = (similarTv) => { return { type: 'SET_SIMILAR_TV', similarTv } }
+export const setDetailsMovie = (detailsMovie) => { return { type: 'SET_DETAILS_MOVIE', detailsMovie } }
+export const setDetailsTv = (detailsTv) => { return { type: 'SET_DETAILS_TV', detailsTv } }
 export default mainPageReducer;

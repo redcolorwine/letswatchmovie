@@ -28,7 +28,7 @@ function App() {
           <Route path='/films/*' element={<FilmsContainer />} />
           <Route path='/about' element={<About />} />
           {/* Передаем id в адресную строку компонента MovieInfo, чтобы для каждого фильма была уникальная страница */}
-          <Route path={`/movie/:id`} element={<MovieInfoContainer />} />
+          <Route path={`/movie/:id`} element={<MovieInfoContainer key={window.location.pathname} />} />
           {/* Если введен неверный путь, что будет рендериться главная компонента */}
           <Route path={`/tv/:id`} element={<TVInfoContainer />} />
           <Route path='*' element={<MainContainer />} />

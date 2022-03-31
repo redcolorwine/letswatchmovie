@@ -117,5 +117,26 @@ export const usersAPI = {
         return axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
             return response.data.results;
         })
+    },
+    getSimilarMovie(id, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`).then(response => {
+            return response;
+        })
+    },
+    getSimilarTV(id, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/tv/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`).then(response => {
+            return response;
+        })
+    },
+    //можно получить данные о фильмe, в том числе и жанры!
+    getDetailsMovie(id) {
+        return axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
+            return response.data;
+        })
+    },
+    getDetailsTv(id) {
+        return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
+            return response.data;
+        })
     }
 }

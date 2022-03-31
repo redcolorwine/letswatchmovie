@@ -63,3 +63,29 @@
     color: white;
     font-size: 20pt;
 }
+
+
+.newsBlock {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.newsBlock h4{
+    font-size: 10pt;
+}
+.newsBlock p{
+    font-size: 8pt;
+}
+.newsBlock img {
+    cursor: pointer;
+    border-radius: 20px;
+    height: 170px;
+    width: 200px;
+    transition: 0.5s;
+}
+
+.newsBlock img:hover {
+    transform: scale(1.1, 1.1);
+}

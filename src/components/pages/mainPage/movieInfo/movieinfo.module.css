@@ -14,7 +14,11 @@
     font-family: 'Century Gothic';
     color: white;
 }
-
+.movieInfo h3{
+    color: rgb(255, 15, 77);
+    font-family: 'Century Gothic';
+    font-size: 20pt;
+}
 .title {
     width: 800px;
     margin: 0 auto;
@@ -62,4 +66,49 @@
 .notfound {
     color: white;
     font-size: 20pt;
+}
+
+.newsBlock {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.newsBlock h4{
+    font-size: 10pt;
+}
+.newsBlock p{
+    font-size: 8pt;
+}
+.newsBlock img {
+    cursor: pointer;
+    border-radius: 20px;
+    height: 170px;
+    width: 200px;
+    transition: 0.5s;
+}
+
+.newsBlock img:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.products img{
+    width: 75px;
+    height: 30px;
+    padding: 5px;
+    background-color: aliceblue;
+}
+.products{
+    border-radius: 20px;
+    margin: 2px;
+}
+.products p{
+    font-size: 10px;
+}
+.companies{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14pt;
 }

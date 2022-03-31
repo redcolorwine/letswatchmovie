@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { getMovieGenres, getMovieThunkCreator, getVideosMovie } from "../../../../redux/mainPageReducer"
+import { getDetailsMovie, getMovieGenres, getMovieThunkCreator, getSimilarMovie, getVideosMovie } from "../../../../redux/mainPageReducer"
 import MovieInfo from "./movieInfo"
 
 let mapStateToProps = (state) => {
@@ -7,7 +7,9 @@ let mapStateToProps = (state) => {
         genresNames: state.main.genres,
         isMovieInfoLoading: state.main.isMovieInfoLoading,
         movieData: state.main.movieData,
-        ytLinks: state.main.ytLinks
+        ytLinks: state.main.ytLinks,
+        similarMovie: state.main.similarMovie,
+        detailsMovie: state.main.detailsMovie
     }
 }
 
@@ -22,6 +24,12 @@ let mapDispatchToProps = (dispatch) => {
         },
         getGenres: () => {
             dispatch(getMovieGenres());
+        },
+        getSimilar: (movieId) => {
+            dispatch(getSimilarMovie(movieId));
+        },
+        getDetails: (movieId) => {
+            dispatch(getDetailsMovie(movieId));
         }
     }
 }

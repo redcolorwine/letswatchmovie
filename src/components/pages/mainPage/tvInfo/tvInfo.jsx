@@ -1,18 +1,21 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import cmedia from './tvInfo.module.css';
 import preloader from './../../../../media/preloaders/preloader.svg';
+import FilmItem from '../filmItem';
 const TVInfo = (props) => {
-
+    let location = useLocation();
     //Получаем ID из URL
     const { id } = useParams();
 
     //После отрисовки компоненты получаем данные выбранного фильм полученные из API
+    //В зависимость добавляем url, чтобы при его изменении страница перерендерилась
     useEffect(() => {
         props.getVideosTV(id);
+        props.getSimilar(id);
         props.getTVGenres();
         props.getTV(id);
-    }, [])
+    }, [location.pathname])
 
     //Если данные еще не получены, отображаем загрузку страницы preloader
     if (props.isTVInfoLoading) return (<div className={cmedia.preloader}>
@@ -20,7 +23,7 @@ const TVInfo = (props) => {
     </div>)
 
     else if (props.tvData != undefined) {
-        debugger;
+
         //Иначе загружаем основные данные
         //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
         let genresNames = [];
@@ -44,7 +47,9 @@ const TVInfo = (props) => {
                 allowFullScreen>
             </iframe><br></br></>)
         })
-
+        let similarTvItems = props.similarTv.results.map(film => {
+            return (<FilmItem genresNames={props.tvGenres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.first_air_date} title={film.name} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} type="tv" />)
+        })
         //Отрисовка
         return (
             <div className={cmedia.movieInfo}>
@@ -67,7 +72,10 @@ const TVInfo = (props) => {
                         {linksYouTube}
                     </>
                 }
-
+                <h3>Похожие сериалы</h3>
+                <div className={cmedia.newsBlock}>
+                    {similarTvItems}
+                </div>
             </div>
         )
     } else {
