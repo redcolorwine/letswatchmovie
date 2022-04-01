@@ -251,6 +251,7 @@ export const getMovieGenres = () => {
     return (dispatch) => {
         usersAPI.getGenres().then(response => {
             dispatch(setGenres(response.data));
+
         })
     }
 }
@@ -349,7 +350,6 @@ export const getMovieWithTrandThunkCreator = (time) => {
 
 export const getSimilarMovie = (movieId, page) => {
     return (dispatch) => {
-        debugger;
         usersAPI.getSimilarMovie(movieId, page).then(response => {
             dispatch(setSimilarMovie(response.data));
         })
@@ -366,13 +366,42 @@ export const getDetailsMovie = (movieId) => {
     return (dispatch) => {
         usersAPI.getDetailsMovie(movieId).then(response => {
             dispatch(setDetailsMovie(response));
+        }).then(() => {
+            dispatch(setIsMovieInfoLoading(false));
         })
     }
 }
+
+export const getAllDetailsMovie = (movieId) => {
+    return (dispatch) => {
+        usersAPI.getAllDetailsMovie(movieId).then(response => {
+            dispatch(setSimilarMovie(response[0].data));
+            dispatch(setGenres(response[1].data));
+            dispatch(setYouTubeLinks(response[2].data.results));
+            dispatch(setDetailsMovie(response[3].data));
+        }).then(() => {
+            dispatch(setIsMovieInfoLoading(false));
+        })
+    }
+}
+
 export const getDetailsTv = (tvId) => {
     return (dispatch) => {
         usersAPI.getDetailsTv(tvId).then(response => {
             dispatch(setDetailsTv(response));
+        })
+    }
+}
+
+export const getAllDetailsTV = (tvId) => {
+    return (dispatch) => {
+        usersAPI.getAllDetailsTV(tvId).then(response => {
+            dispatch(setSimilarTv(response[0].data));
+            dispatch(setTVGenres(response[1].data));
+            dispatch(setYouTubeLinks(response[2].data.results));
+            dispatch(setDetailsTv(response[3].data));
+        }).then(() => {
+            dispatch(setIsTVInfoLoading(false));
         })
     }
 }

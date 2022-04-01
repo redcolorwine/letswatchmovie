@@ -16,18 +16,23 @@
 }
 
 .title {
-    width: 800px;
+    width: 1200px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid gray;
 }
 
 .title p {
     text-align: left;
     font-family: 'Century Gothic';
 }
-
+.titleText {
+    margin-left: 5px;
+}
 .description {
     margin: 0 auto;
-    width: 800px;
+    width: 1200px;
     display: flex;
     justify-content: space-between;
 }
@@ -88,4 +93,24 @@
 
 .newsBlock img:hover {
     transform: scale(1.1, 1.1);
+}
+
+.products img{
+    width: 75px;
+    height: 30px;
+    padding: 5px;
+    background-color: aliceblue;
+}
+.products{
+    border-radius: 20px;
+    margin: 2px;
+}
+.products p{
+    font-size: 10px;
+}
+.companies{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14pt;
 }

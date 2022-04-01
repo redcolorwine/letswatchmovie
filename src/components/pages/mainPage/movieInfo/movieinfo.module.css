@@ -4,8 +4,8 @@
 }
 
 .movieInfo img {
-    width: 800px;
-    height: 500px;
+    width: 600px;
+    height: 400px;
 
 }
 
@@ -20,18 +20,23 @@
     font-size: 20pt;
 }
 .title {
-    width: 800px;
+    width: 1200px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid gray;
 }
 
 .title p {
     text-align: left;
     font-family: 'Century Gothic';
 }
-
+.titleText {
+    margin-left: 5px;
+}
 .description {
     margin: 0 auto;
-    width: 800px;
+    width: 1200px;
     display: flex;
     justify-content: space-between;
 }

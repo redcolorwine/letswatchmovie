@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation,useParams } from 'react-router-dom';
 import cmedia from './movieinfo.module.css';
 import preloader from './../../../../media/preloaders/preloader.svg';
 import FilmItem from '../filmItem';
@@ -8,14 +8,8 @@ const MovieInfo = (props) => {
     //Получаем ID из URL
     const { id } = useParams();
 
-    //После отрисовки компоненты получаем данные выбранного фильм полученные из API
-    //НУЖНО ПРЕОБРАЗОВАТЬ В ОДИН ЗАПРОС!!!
     useEffect(() => {
-        props.getVideosMovie(id);
-        props.getSimilar(id);
-        props.getGenres();
-        props.getDetails(id);
-        props.getMovie(id);
+        props.getAllDetails(id);
     }, [location.pathname])
 
     //Если данные еще не получены, отображаем загрузку страницы preloader
@@ -23,28 +17,16 @@ const MovieInfo = (props) => {
         <img src={preloader} alt="" />
     </div>)
 
-    else if (props.movieData != undefined) {
+    else if (props.detailsMovie != undefined) {
         //Иначе загружаем основные данные
         //Массив для имен жанров(хранятся в виде объектов{id:1,name:'any'})
         let genresNames = [];
-
-        //Сверяем ID жанров текущего главного фильма с ID жанров API сервера и если ID совпадают, то загружаем их имена в массив genresNames
-        for (let j = 0; j < props.movieData.genre_ids.length; j++) {
-            for (let i = 0; i < props.genresNames.genres.length; i++) {
-                if (props.movieData.genre_ids[j] === props.genresNames.genres[i].id) {
-                    genresNames.push(props.genresNames.genres[i].name)
-                }
-            }
+        for (let i = 0; i < props.detailsMovie.genres.length; i++) {
+            genresNames.push(props.detailsMovie.genres[i].name)
         }
-        //Создаем блоки span из имен жанров
-        //ЖАНРЫ НУЖНО ЛУЧШЕ ДОСТАТЬ ИЗ PROPS.DETAILS!!!
-        //Из props.details МОЖНО ДОСТАТЬ ВСЕ ТО ЖЕ ЧТО и ИЗ прошлых "костылей"
-        let genres = genresNames.map((genre) => {
-            return (<span key={genre}>{genre} </span>)
-        })
+
         let linksYouTube = props.ytLinks.map(el => {
-            return (<><iframe width="800" height="400"
-                src={`https://www.youtube.com/embed/${el.key}`}
+            return (<><iframe title="linksFrame" width="1200" height="600" src={`https://www.youtube.com/embed/${el.key}`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen>
@@ -57,42 +39,43 @@ const MovieInfo = (props) => {
         let bestGenres = props.detailsMovie.genres.map(genre => {
             return (<span key={genre.id}>{genre.name} </span>)
         })
-        console.log(props.detailsMovie)
         let similarMovieItems = props.similarMovie.results.map(film => {
             return (<FilmItem genresNames={props.genresNames} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.release_date} title={film.title} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} type="movie" />)
         })
-        let productCompanies=props.detailsMovie.production_companies.map(product=>{
-            return(<div className={cmedia.products}><p>{product.name}</p><img src={`https://image.tmdb.org/t/p/w500/${product.logo_path}`} alt="" /></div>)
+        let productCompanies = props.detailsMovie.production_companies.map(product => {
+            return (<div className={cmedia.products}><p>{product.name}</p>{product.logo_path != null && <img src={`https://image.tmdb.org/t/p/w500/${product.logo_path}`} alt="" />}</div>)
         })
         //Отрисовка
         return (
             <div className={cmedia.movieInfo}>
-
+                <h4>{props.detailsMovie.title}</h4>
                 <div className={cmedia.title}>
-                    <h4>{props.movieData.title}</h4>
-                    <p><span>{props.detailsMovie.tagline}</span></p>
-                    <p>Дата выхода: <span>{props.movieData.release_date}</span> </p>
-                    <p>Жанр: <span>{genres}</span></p>
-                    <p>Бюджет: <span>{props.detailsMovie.budget} $</span></p>
-                    <div className={cmedia.companies}>Компании: {productCompanies}</div>
-                    <p>Страны: {countries}</p>
-                    <p>Лучшие легкие жанры: {bestGenres}</p>
-                    <p>Продолжительность просмотра: <span>{props.detailsMovie.runtime} минут</span></p>
-                    <p>Возрастные ограничения: {props.movieData.adult ? <span>18+</span> : <span>нет</span>}</p>
-                    <img src={`https://image.tmdb.org/t/p/w500/${props.movieData.backdrop_path}`} alt="" />
+                    <img src={`https://image.tmdb.org/t/p/w500/${props.detailsMovie.backdrop_path}`} alt="" />
+                    <div className={cmedia.titleText}>
+                        <p><span>{props.detailsMovie.tagline}</span></p>
+                        <p>Дата выхода: <span>{props.detailsMovie.release_date}</span> </p>
+                        <p>Жанр: <span>{bestGenres}</span></p>
+                        <p>Бюджет: <span>{props.detailsMovie.budget} $</span></p>
+                        <div className={cmedia.companies}>Компании: {productCompanies}</div>
+                        <p>Страны: {countries}</p>
+                        <p>Продолжительность просмотра: <span>{props.detailsMovie.runtime} минут</span></p>
+                        <p>Возрастные ограничения: {props.detailsMovie.adult ? <span>18+</span> : <span>нет</span>}</p>
+                    </div>
                 </div>
 
                 <div className={cmedia.description}>
-                    <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.movieData.vote_average != 0 ? props.movieData.vote_average : 'ожидается'}</span> </p>
-                    <p className={cmedia.about}>{props.movieData.overview}</p>
+                    <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.detailsMovie.vote_average != 0 ? props.detailsMovie.vote_average : 'ожидается'}</span> </p>
+                    <p className={cmedia.about}>{props.detailsMovie.overview}</p>
                 </div>
+
                 {linksYouTube != '' &&
                     <>
                         <h3>Смотреть трейлер:</h3>
                         {linksYouTube}
                     </>
                 }
-                <h3>Похожие фильмы</h3>
+
+                <h3>Смотрите также:</h3>
                 <div className={cmedia.newsBlock}>
                     {similarMovieItems}
                 </div>

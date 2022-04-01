@@ -134,9 +134,29 @@ export const usersAPI = {
             return response.data;
         })
     },
+
+    getAllDetailsMovie(id, page = 1) {
+        return axios.all([
+            axios.get(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`),
+            axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU'),
+            axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
+            axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
+        ]).then(response => {
+            return response
+        })
+    },
+    
     getDetailsTv(id) {
         return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
             return response.data;
         })
+    },
+    getAllDetailsTV(id, page=1) {
+        return axios.all([
+            axios.get(`https://api.themoviedb.org/3/tv/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`),
+            axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
+            axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
+            axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
+        ])
     }
 }
