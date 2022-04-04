@@ -1,0 +1,57 @@
+.preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tvseries {
+    color: white;
+    width: 1200px;
+    margin: 0 auto;
+}
+.tvseries h3{
+    font-size: 24pt;
+    font-family: 'Century Gothic';
+}
+.newsBlock {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.newsBlock img {
+    cursor: pointer;
+    border-radius: 20px;
+    height: 150px;
+    width: 170px;
+    transition: 0.5s;
+}
+
+.newsBlock img:hover {
+    transform: scale(1.1, 1.1);
+}
+
+.search select{
+    outline: none;
+    color:white;
+    font-size: 12pt;
+    font-family: 'Century Gothic';
+    background-color: rgb(255, 15, 77);
+    border: 1px solid rgb(255, 15, 77);
+    border-radius: 2px;
+    padding: 10px;
+}
+
+.search input {
+    color:white;
+    font-size: 12pt;
+    font-family: 'Century Gothic';
+    background-color: rgb(165, 161, 178);
+    border: 1px solid rgb(165, 161, 178);
+    border-radius: 2px;
+    padding: 10px;
+    margin: 5px;
+}

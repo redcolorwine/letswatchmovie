@@ -145,18 +145,23 @@ export const usersAPI = {
             return response
         })
     },
-    
+
     getDetailsTv(id) {
         return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
             return response.data;
         })
     },
-    getAllDetailsTV(id, page=1) {
+    getAllDetailsTV(id, page = 1) {
         return axios.all([
             axios.get(`https://api.themoviedb.org/3/tv/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`),
             axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
             axios.get(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
             axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
         ])
+    },
+    getSerialsByFillter(genreId = 16, yearFrom = 1990, yearTo = 2020, sortBy = 'popularity.desc', page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/discover/tv?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=${sortBy}c&air_date.gte=${yearFrom}&air_date.lte=${yearTo}&page=${page}&with_genres=${genreId}&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0`).then(response => {
+            return response;
+        })
     }
 }

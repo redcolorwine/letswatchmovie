@@ -24,6 +24,7 @@ const Header = (props) => {
                     <li><NavLink to="/">ГЛАВНАЯ</NavLink></li>
                     <li><NavLink to="/films">ФИЛЬМЫ</NavLink></li>
                     <li><NavLink to="/tvseries">СЕРИАЛЫ</NavLink></li>
+                    <li><NavLink to="/pagetv">СЕРИАЛЫ ФИЛЬТР</NavLink></li>
                     <li><NavLink to="/about">О НАС</NavLink></li>
                 </nav>
 

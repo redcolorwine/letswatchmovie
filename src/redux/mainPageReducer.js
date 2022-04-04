@@ -32,6 +32,7 @@ let initialState = {
     topRatedTv: '',
     similarTv: '',
     detailsTv: '',
+    foundByFilterTV: '',
     //YouTube ссылки
     ytLinks: ''
 }
@@ -160,6 +161,11 @@ let mainPageReducer = (state = initialState, action) => {
                 ...state,
                 trandTVSeries: action.trandTVSeries
             }
+        case 'SET_FOUND_BY_FILTER_TV':
+            return {
+                ...state,
+                foundByFilterTV: action.foundByFilterTV
+            }
         case 'SET_DETAILS_TV':
             return {
                 ...state,
@@ -259,6 +265,14 @@ export const getTopRatedTV = (page) => {
     return (dispatch) => {
         usersAPI.searchTopRatedTV(page).then(response => {
             dispatch(setTopRatedTv(response.data));
+        })
+    }
+}
+export const getFoundByFilterTV = (genreId, yearFrom, yearTo, sortBy, page) => {
+    return (dispatch) => {
+        debugger;
+        usersAPI.getSerialsByFillter(genreId, yearFrom, yearTo, sortBy, page).then(response => {
+            dispatch(setFoundByFilterTV(response.data));
         })
     }
 }
@@ -422,6 +436,7 @@ export const setCurrentUpcomingPage = (currentPage) => { return { type: 'SET_UPC
 export const setFoundMovies = (foundMovies) => { return { type: 'SET_FOUND_MOVIES', foundMovies } }
 export const setSearchArea = (searchArea) => { return { type: 'SET_SEARCH_AREA', searchArea } }
 export const setMovieData = (movieData) => { return { type: 'SET_MOVIE_DATA', movieData } }
+export const setFoundByFilterTV = (foundByFilterTV) => { return { type: 'SET_FOUND_BY_FILTER_TV', foundByFilterTV } }
 export const setTVData = (tvData) => { return { type: 'SET_TV_DATA', tvData } }
 export const setTopRatedTv = (topRatedTv) => { return { type: 'SET_TOP_RATED_TV', topRatedTv } }
 export const setFoundPage = (foundPage) => { return { type: 'SET_FOUND_PAGE', foundPage } }
