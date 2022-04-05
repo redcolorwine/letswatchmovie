@@ -1,15 +1,25 @@
 import cmedia from './films.module.css';
 import { useNavigate } from 'react-router-dom';
+//Страница с фильмами
 const Films = (props) => {
+
     let history = useNavigate();
+
+    //Если выбираем поиск по жанрам
     const onGenreClick = (event) => {
+        //Получаем жанры
         props.getGenres();
+        //Вызываем поиск по жанру и передаем id жанра
         props.searchMoviesWithGenre(event.target.id);
+        //Переходим на страницу найденных запросов
         history(`/findmovie/${event.target.getAttribute('value')}`);
+        //Устанавливаем ключ поиска жанр и передаем id
         props.setFoundKey({ name: 'genre', id: event.target.id });
     }
 
+    //В случае поиска по годам
     const onYearClick = (event) => {
+        //В зависимости от выбранного временного диапазона вызывается разный API запрос
         switch (event.target.id) {
             case "1990":
                 props.getGenres();
@@ -37,8 +47,9 @@ const Films = (props) => {
                 break;
             default: alert('Неизвестная ошибка!');
         }
-
     }
+
+    //Запрос по тренду дня или недели
     const onTrandClick = (event) => {
         props.getGenres();
         props.searchMovieWithTrand(event.target.id);

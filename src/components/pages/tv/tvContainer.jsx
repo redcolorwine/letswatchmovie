@@ -8,7 +8,8 @@ let mapStateToProps = (state) => {
         tvGenres: state.main.tvGenres,
         isTVSeriesLoading: state.main.isTVSeriesLoading,
         topRatedTv: state.main.topRatedTv,
-        foundByFilterTV: state.main.foundByFilterTV
+        foundByFilterTV: state.main.foundByFilterTV,
+        search404: state.main.search404
     }
 }
 
@@ -19,9 +20,6 @@ let mapDispatchToProps = (dispatch) => {
         },
         getTopRated: (page) => {
             dispatch(getTopRatedTV(page));
-        },
-        getGenres: () => {
-            dispatch(getTVGenres());
         },
         getTVByFilter: (genreId, yearFrom, yearTo, sortby, page) => {
             dispatch(getFoundByFilterTV(genreId, yearFrom, yearTo, sortby, page));

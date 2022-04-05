@@ -1,4 +1,4 @@
-import { usersAPI } from '../api/api';
+import { filmsAPI } from '../api/api';
 //данные для инициализации начального state
 let initialState = {
     //Фильмы
@@ -9,8 +9,8 @@ let initialState = {
     genres: '', //жанры
     currentMainFilm: 5, //выбранный фильм для отображения на главной страницы
     currentUpcomingFilmPage: 2, //текущая страница для последующей загрузки ожидаемых фильмов (при нажатии на кнопку "далее" на главной странице)
-    similarMovie: '',
-    detailsMovie: '',
+    similarMovie: '', //Похожие
+    detailsMovie: '', //Детали фильма
 
     //Загрузчики
     isMainPageLoading: true, //производится ли загрузка главной страницы
@@ -26,13 +26,14 @@ let initialState = {
     //Сериалы
     isTVInfoLoading: true,
     isTVSeriesLoading: true,
-    trandTVSeries: '',
-    tvGenres: '',
-    tvData: '',
-    topRatedTv: '',
-    similarTv: '',
-    detailsTv: '',
-    foundByFilterTV: '',
+    trandTVSeries: '', //Трендовые 
+    tvGenres: '', //Жанры сериалов
+    tvData: '', //Данные сериала
+    topRatedTv: '', //С высоким рейтингом
+    similarTv: '', //Похожие
+    detailsTv: '', //Детальные данные сериала
+    foundByFilterTV: '', //Найденные по фильтру телепередачи
+    search404: '', //Сообщение о результате поиска
     //YouTube ссылки
     ytLinks: ''
 }
@@ -47,11 +48,13 @@ let mainPageReducer = (state = initialState, action) => {
                 ...state,
                 mostPopularFilms: action.mostPopularFilms
             }
+        //Инициализация похожих фильмов
         case 'SET_SIMILAR_MOVIE':
             return {
                 ...state,
                 similarMovie: action.similarMovie
             }
+        //Инициализация подробных данных о фильме
         case 'SET_DETAILS_MOVIE':
             return {
                 ...state,
@@ -118,12 +121,14 @@ let mainPageReducer = (state = initialState, action) => {
                 currentUpcomingFilmPage: cPage
             }
         }
+        ///Инициализация найденных фильмов
         case 'SET_FOUND_MOVIES': {
             return {
                 ...state,
                 foundMovies: action.foundMovies
             }
         }
+        //Инициализация страницы найденных фильмов
         case 'SET_FOUND_PAGE': {
             if (action.foundPage < 1) {
                 return {
@@ -137,18 +142,21 @@ let mainPageReducer = (state = initialState, action) => {
                 }
             }
         }
+        ////Инициализация ключа (фильм/сериал/жанры/года)
         case 'SET_FOUND_KEY': {
             return {
                 ...state,
                 foundKey: action.foundKey
             }
         }
+        ///Инициализация области поиска
         case 'SET_SEARCH_AREA': {
             return {
                 ...state,
                 searchArea: action.searchArea
             }
         }
+        //Инициализация данных фильма
         case 'SET_MOVIE_DATA': {
             return {
                 ...state,
@@ -156,57 +164,76 @@ let mainPageReducer = (state = initialState, action) => {
             }
         }
         //СЕРИАЛЫ    
+        ////Инициализация трендовых сериалов
         case 'SET_TRAND_TVSERIES':
             return {
                 ...state,
                 trandTVSeries: action.trandTVSeries
             }
-        case 'SET_FOUND_BY_FILTER_TV':
-            return {
-                ...state,
-                foundByFilterTV: action.foundByFilterTV
+        ////Инициализация найденных телепередач по фильтру
+        case 'SET_FOUND_BY_FILTER_TV': {
+            if (action.foundByFilterTV.results.length == 0) {
+                return {
+                    ...state,
+                    foundByFilterTV: action.foundByFilterTV,
+                    search404: 'По запросу ничего не найдено..'
+                }
+            } else {
+                return {
+                    ...state,
+                    foundByFilterTV: action.foundByFilterTV,
+                    search404: ''
+                }
             }
+        }
+        ///Инициализация подробных данных о сериале
         case 'SET_DETAILS_TV':
             return {
                 ...state,
                 detailsTv: action.detailsTv
             }
+        ////Инициализация жанров сериалов
         case 'SET_TV_GENRES':
             return {
                 ...state,
                 tvGenres: action.tvGenres
             }
+        //Инициализация данных о сериале
         case 'SET_TV_DATA': {
             return {
                 ...state,
                 tvData: action.tvData
             }
         }
+        //Инициализация подобных сериалов
         case 'SET_SIMILAR_TV': {
             return {
                 ...state,
                 similarTv: action.similarTv
             }
         }
+        //Инициализация трендовых сериалов
         case 'SET_TOP_RATED_TV': {
             return {
                 ...state,
                 topRatedTv: action.topRatedTv
             }
         }
+        //Загрузка сериалов
         case 'SET_IS_TVSERIES_LOADING': {
             return {
                 ...state,
                 isTVSeriesLoading: action.seriesLoading
             }
         }
+        //Загрузка информации
         case 'SET_IS_TV_INFO_LOADING': {
             return {
                 ...state,
                 isTVInfoLoading: action.tvLoading
             }
         }
-
+        ////Инициализация данных ютуб ссылок
         case 'SET_YOUTUBE_LINKS': {
             return {
                 ...state,
@@ -221,7 +248,7 @@ export const getMPFilmsThunkCreator = (page) => {
 
     return (dispatch) => {
         //запрос к API. Передаем номер страницы ожидаемых фильмов, чтобы отобразить в разделе НОВИНКИ
-        usersAPI.getFilmsForMainPage(page).then(response => {
+        filmsAPI.getFilmsForMainPage(page).then(response => {
             //Диспатчим через Action Creators в state полученные через API данные (запрос состоит из трех запросов одновременно *axios.all())
             dispatch(setMostPopularFilms(response[0].data));
             dispatch(setGenres(response[1].data))
@@ -235,9 +262,10 @@ export const getMPFilmsThunkCreator = (page) => {
     }
 
 }
+//Получение трендовых сериалов
 export const getTrandTVSeries = (page) => {
     return (dispatch) => {
-        usersAPI.getTVSeries(page).then(response => {
+        filmsAPI.getTVSeries(page).then(response => {
             dispatch(setTrandTVSeries(response[0].data));
             dispatch(setTVGenres(response[1].data));
         }).then(() => {
@@ -245,33 +273,34 @@ export const getTrandTVSeries = (page) => {
         })
     }
 }
+//Получение жанров сериалов
 export const getTVGenres = () => {
     return (dispatch) => {
-        usersAPI.getTVgenres().then(response => {
+        filmsAPI.getTVgenres().then(response => {
             dispatch(setTVGenres(response.data))
         })
     }
 }
-
+//Получение жанров фильмов
 export const getMovieGenres = () => {
     return (dispatch) => {
-        usersAPI.getGenres().then(response => {
+        filmsAPI.getGenres().then(response => {
             dispatch(setGenres(response.data));
-
         })
     }
 }
+//Получение рейтинговых фильмов
 export const getTopRatedTV = (page) => {
     return (dispatch) => {
-        usersAPI.searchTopRatedTV(page).then(response => {
+        filmsAPI.searchTopRatedTV(page).then(response => {
             dispatch(setTopRatedTv(response.data));
         })
     }
 }
+//Получени телепередач по фильтру
 export const getFoundByFilterTV = (genreId, yearFrom, yearTo, sortBy, page) => {
     return (dispatch) => {
-        debugger;
-        usersAPI.getSerialsByFillter(genreId, yearFrom, yearTo, sortBy, page).then(response => {
+        filmsAPI.getSerialsByFillter(genreId, yearFrom, yearTo, sortBy, page).then(response => {
             dispatch(setFoundByFilterTV(response.data));
         })
     }
@@ -279,16 +308,15 @@ export const getFoundByFilterTV = (genreId, yearFrom, yearTo, sortBy, page) => {
 //thunk для получения следующей страницы ожидаемых фильмов и последующего добавления их в массив ожидаемых фильмов
 export const addUpcomingFilmsThunkCreator = (page) => {
     return (dispatch) => {
-        usersAPI.getUpcomingFilms(page).then(response => {
+        filmsAPI.getUpcomingFilms(page).then(response => {
             dispatch(addUpcomingFilms(response))
         })
     }
 }
-
+//Поиск фильмов
 export const foundMoviesThunkCreator = (movie) => {
-
     return (dispatch) => {
-        usersAPI.searchMovie(movie).then(response => {
+        filmsAPI.searchMovie(movie).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
@@ -298,35 +326,34 @@ export const foundMoviesThunkCreator = (movie) => {
 //thunk для получения фильмов информационной страницы(популярных и ожидаемых, а также жанров) Также, передаем id выбранного фильма
 export const getMovieThunkCreator = (movieId) => {
     return (dispatch) => {
-        usersAPI.getFilmById(movieId).then(response => {
+        filmsAPI.getFilmById(movieId).then(response => {
             dispatch(setMovieData(response.data.movie_results[0]))
         }).then(() => {
             dispatch(setIsMovieInfoLoading(false));
         })
     }
 }
+//Получение данных фильма(не подробных)
 export const getTVThunkCreator = (tvId) => {
     return (dispatch) => {
-
-        usersAPI.getTVbyID(tvId).then(response => {
+        filmsAPI.getTVbyID(tvId).then(response => {
             dispatch(setTVData(response.data.tv_results[0]))
         }).then(() => {
-
             dispatch(setIsTVInfoLoading(false));
         })
     }
 }
+//Получение ютуб трейлеров к сериалу
 export const getVideosTV = (tvId) => {
     return (dispatch) => {
-        usersAPI.getTvVideos(tvId).then(response => {
-
+        filmsAPI.getTvVideos(tvId).then(response => {
             dispatch(setYouTubeLinks(response));
         })
     }
 }
 export const getVideosMovie = (movieId) => {
     return (dispatch) => {
-        usersAPI.getMovieVideos(movieId).then(response => {
+        filmsAPI.getMovieVideos(movieId).then(response => {
             dispatch(setYouTubeLinks(response));
         })
     }
@@ -334,7 +361,7 @@ export const getVideosMovie = (movieId) => {
 //thunk для получения фильмов по id жанра
 export const getMovieWithGenreThunkCreator = (genreId, page) => {
     return (dispatch) => {
-        usersAPI.searchWithGenres(genreId, page).then(response => {
+        filmsAPI.searchWithGenres(genreId, page).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
@@ -344,7 +371,7 @@ export const getMovieWithGenreThunkCreator = (genreId, page) => {
 //thunk для получения фильмов по годам
 export const getMovieWithYearsThunkCreator = (yearFrom, yearTo, page) => {
     return (dispatch) => {
-        usersAPI.searchWithYears(yearFrom, yearTo, page).then(response => {
+        filmsAPI.searchWithYears(yearFrom, yearTo, page).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
@@ -354,41 +381,43 @@ export const getMovieWithYearsThunkCreator = (yearFrom, yearTo, page) => {
 //thunk для получения фильмов по годам
 export const getMovieWithTrandThunkCreator = (time) => {
     return (dispatch) => {
-        usersAPI.searchTranding(time).then(response => {
+        filmsAPI.searchTranding(time).then(response => {
             dispatch(setFoundMovies(response.data))
         }).then(() => {
             dispatch(setIsFoundMoviesLoading(false));
         })
     }
 }
-
+//Поиск подобных фильмов
 export const getSimilarMovie = (movieId, page) => {
     return (dispatch) => {
-        usersAPI.getSimilarMovie(movieId, page).then(response => {
+        filmsAPI.getSimilarMovie(movieId, page).then(response => {
             dispatch(setSimilarMovie(response.data));
         })
     }
 }
+//Поиск похожих сериалов
 export const getSimilarTv = (tvId, page) => {
     return (dispatch) => {
-        usersAPI.getSimilarTV(tvId, page).then(response => {
+        filmsAPI.getSimilarTV(tvId, page).then(response => {
             dispatch(setSimilarTv(response.data));
         })
     }
 }
+//Получение подробностей фильма
 export const getDetailsMovie = (movieId) => {
     return (dispatch) => {
-        usersAPI.getDetailsMovie(movieId).then(response => {
+        filmsAPI.getDetailsMovie(movieId).then(response => {
             dispatch(setDetailsMovie(response));
         }).then(() => {
             dispatch(setIsMovieInfoLoading(false));
         })
     }
 }
-
+//Получение всех данных по текущему фильму
 export const getAllDetailsMovie = (movieId) => {
     return (dispatch) => {
-        usersAPI.getAllDetailsMovie(movieId).then(response => {
+        filmsAPI.getAllDetailsMovie(movieId).then(response => {
             dispatch(setSimilarMovie(response[0].data));
             dispatch(setGenres(response[1].data));
             dispatch(setYouTubeLinks(response[2].data.results));
@@ -398,18 +427,18 @@ export const getAllDetailsMovie = (movieId) => {
         })
     }
 }
-
+//Получение подробностей сериала
 export const getDetailsTv = (tvId) => {
     return (dispatch) => {
-        usersAPI.getDetailsTv(tvId).then(response => {
+        filmsAPI.getDetailsTv(tvId).then(response => {
             dispatch(setDetailsTv(response));
         })
     }
 }
-
+//Получение всех деталей по сериалу
 export const getAllDetailsTV = (tvId) => {
     return (dispatch) => {
-        usersAPI.getAllDetailsTV(tvId).then(response => {
+        filmsAPI.getAllDetailsTV(tvId).then(response => {
             dispatch(setSimilarTv(response[0].data));
             dispatch(setTVGenres(response[1].data));
             dispatch(setYouTubeLinks(response[2].data.results));

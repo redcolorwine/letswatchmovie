@@ -1,15 +1,12 @@
 import './App.css';
 import Footer from './components/footer/footer';
-import { Route, Routes, useParams } from 'react-router-dom';
-import Tvseries from './components/pages/tvseries/tvseries';
-import Films from './components/pages/films/films';
+import { Route, Routes} from 'react-router-dom';
 import About from './components/pages/about/about';
 import MainContainer from './components/pages/mainPage/mainContainer';
 import MovieInfoContainer from './components/pages/mainPage/movieInfo/movieInfoContainer';
 import HeaderContainer from './components/header/headerContainer';
 import FindMovieContainer from './components/pages/mainPage/findMovie/findMovieContainer';
 import FilmsContainer from './components/pages/films/filmsContainer';
-import TvSeriesContainer from './components/pages/tvseries/tvseriesContainer';
 import TVInfoContainer from './components/pages/mainPage/tvInfo/tvInfoContainer';
 import TVContainer from './components/pages/tv/tvContainer';
 
@@ -25,7 +22,6 @@ function App() {
         <Routes>
           <Route path='/' element={<MainContainer />} />
           <Route path='findmovie/:nameMovie' element={<FindMovieContainer />} />
-          <Route path='/tvseries' element={<TvSeriesContainer />} />
           <Route path='/films/*' element={<FilmsContainer />} />
           <Route path='/about' element={<About />} />
           <Route path='/pagetv' element={<TVContainer />} />

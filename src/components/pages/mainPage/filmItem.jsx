@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import cmedia from './main.module.css';
 import cinema from './../../../media/logo/cinema.jpg';
 //Отображение фильма по отдельности на глявной странице

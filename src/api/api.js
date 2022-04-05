@@ -10,7 +10,7 @@ const instance = axios.create({
     }
 });
 
-export const usersAPI = {
+export const filmsAPI = {
     getMostPopularFilms() {
         return axios.get('https://api.themoviedb.org/3/discover/movie?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_watch_monetization_types=flatrate')
             .then(response => {

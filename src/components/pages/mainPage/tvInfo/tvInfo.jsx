@@ -32,6 +32,7 @@ const TVInfo = (props) => {
             return (<span key={genre.id}>{genre.name} </span>)
         })
 
+        //Создаем фреймы из ютуб ссылок для просмотра трейлеров сериалов
         let linksYouTube = props.ytLinks.map(el => {
             return (<><iframe title="YtLinks" width="1200" height="600"
                 src={`https://www.youtube.com/embed/${el.key}`}
@@ -40,15 +41,22 @@ const TVInfo = (props) => {
                 allowFullScreen>
             </iframe><br></br></>)
         })
+
+        //Похожие сериалы
         let similarTvItems = props.similarTv.results.map(film => {
             return (<FilmItem genresNames={props.tvGenres} genres={film.genre_ids} key={film.id} id={film.id} vote={film.vote_average} adult={props.adult} release={film.first_air_date} title={film.name} img={film.backdrop_path != null ? `https://image.tmdb.org/t/p/w500/${film.backdrop_path}` : null} description={film.overview} type="tv" />)
         })
+
+        //Страны
         let countries = props.detailsTv.production_countries.map(country => {
             return (<span>{country.name}</span>)
         })
+
+        //Компании
         let productCompanies = props.detailsTv.production_companies.map(product => {
             return (<div className={cmedia.products}><p>{product.name}</p>{product.logo_path != null && <img src={`https://image.tmdb.org/t/p/w500/${product.logo_path}`} alt="" />}</div>)
         })
+
         //Отрисовка
         return (
             <div className={cmedia.movieInfo}>
@@ -69,19 +77,20 @@ const TVInfo = (props) => {
                         <p>Продолжительность просмотра: <span>{props.detailsTv.runtime} минут</span></p>
                     </div>
 
-
                 </div>
 
                 <div className={cmedia.description}>
                     <p className={cmedia.vote}>Рейтинг TMDB: <span>{props.detailsTv.vote_average != 0 ? props.detailsTv.vote_average : 'ожидается'}</span> </p>
                     <p className={cmedia.about}>{props.detailsTv.overview}</p>
                 </div>
+
                 {linksYouTube != '' &&
                     <>
                         <h3>Смотреть трейлер:</h3>
                         {linksYouTube}
                     </>
                 }
+                
                 <h3>Похожие сериалы</h3>
                 <div className={cmedia.newsBlock}>
                     {similarTvItems}
