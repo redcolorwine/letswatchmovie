@@ -1,10 +1,11 @@
 import { connect } from "react-redux"
-import { getMovieGenres, getMovieWithGenreThunkCreator, getMovieWithTrandThunkCreator, getMovieWithYearsThunkCreator, setFoundKey } from "../../../redux/mainPageReducer"
+import { getMovieGenres, getMovieWithGenreThunkCreator, getMovieWithTrandThunkCreator, getMovieWithYearsThunkCreator, setFoundKey } from "../../../redux/moviePageReducer"
+
 import Films from "./films"
 
 const mapStateToProps = (state) => {
     return {
-        foundKey: state.main.foundKey
+        foundKey: state.movie.foundKey
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -1,15 +1,16 @@
 import { connect } from "react-redux"
-import { getMovieGenres, getMovieWithGenreThunkCreator, getMovieWithYearsThunkCreator, setFoundPage } from "../../../../redux/mainPageReducer"
+import { getMovieWithGenreThunkCreator, getMovieWithYearsThunkCreator, setFoundPage } from "../../../../redux/moviePageReducer"
+
 import FindMovie from "./findMovie"
 
 
 let mapStateToProps = (state) => {
     return {
-        foundMovies: state.main.foundMovies,
-        isFoundMoviesLoading: state.main.isFoundMoviesLoading,
-        genres: state.main.genres,
-        foundPage: state.main.foundPage,
-        foundKey: state.main.foundKey
+        foundMovies: state.movie.foundMovies,
+        isFoundMoviesLoading: state.movie.isFoundMoviesLoading,
+        genres: state.movie.genres,
+        foundPage: state.movie.foundPage,
+        foundKey: state.movie.foundKey
     }
 }
 

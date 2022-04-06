@@ -1,15 +1,16 @@
 import { connect } from "react-redux"
-import { getFoundByFilterTV, getTopRatedTV, getTrandTVSeries, getTVGenres } from "../../../redux/mainPageReducer"
+import { getFoundByFilterTV, getTopRatedTV, getTrandTVSeries } from "../../../redux/tvPageReducer"
+
 import TV from "./tv"
 
 let mapStateToProps = (state) => {
     return {
-        trandTVSeries: state.main.trandTVSeries,
-        tvGenres: state.main.tvGenres,
-        isTVSeriesLoading: state.main.isTVSeriesLoading,
-        topRatedTv: state.main.topRatedTv,
-        foundByFilterTV: state.main.foundByFilterTV,
-        search404: state.main.search404
+        trandTVSeries: state.tv.trandTVSeries,
+        tvGenres: state.tv.tvGenres,
+        isTVSeriesLoading: state.tv.isTVSeriesLoading,
+        topRatedTv: state.tv.topRatedTv,
+        foundByFilterTV: state.tv.foundByFilterTV,
+        search404: state.tv.search404
     }
 }
 
