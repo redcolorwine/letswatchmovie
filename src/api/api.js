@@ -140,12 +140,21 @@ export const filmsAPI = {
             axios.get(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU&page=${page}`),
             axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU'),
             axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
-            axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`)
+            axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`),
         ]).then(response => {
             return response
         })
     },
-
+    getMovieReviews(id, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=en-US&page=${page}`).then(response => {
+            return response;
+        })
+    },
+    getTVReviews(id, page = 1) {
+        return axios.get(`https://api.themoviedb.org/3/tv/${id}/reviews?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=en-US&page=${page}`).then(response => {
+            return response;
+        })
+    },
     getDetailsTv(id) {
         return axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=2c395216a9e2efaac337ffbc09ff1ee8&language=ru-RU`).then(response => {
             return response.data;

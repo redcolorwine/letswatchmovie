@@ -7,7 +7,7 @@ let initialState = {
     genres: '', //жанры
     similarMovie: '', //Похожие
     detailsMovie: '', //Детали фильма
-
+    reviews: '',
     //Загрузчики
     isMovieInfoLoading: true,//производится ли загрузка информационной страницы
     isFoundMoviesLoading: true, //производится ли загрузка найденных фильмов
@@ -109,6 +109,12 @@ let moviePageReducer = (state = initialState, action) => {
                 ytLinks: action.ytLinks
             }
         }
+        case 'SET_MOVIE_REVIEWS': {
+            return {
+                ...state,
+                reviews: action.reviews
+            }
+        }
         default: return state
     }
 }
@@ -187,7 +193,13 @@ export const getSimilarMovie = (movieId, page) => {
         })
     }
 }
-
+export const getMovieReviews = (movieId, page) => {
+    return (dispatch) => {
+        filmsAPI.getMovieReviews(movieId, page).then(response => {
+            dispatch(setMovieReviews(response.data));
+        })
+    }
+}
 //Получение подробностей фильма
 export const getDetailsMovie = (movieId) => {
     return (dispatch) => {
@@ -225,4 +237,5 @@ export const setFoundKey = (foundKey) => { return { type: 'SET_FOUND_KEY', found
 export const setYouTubeLinks = (ytLinks) => { return { type: 'SET_YOUTUBE_LINKS', ytLinks } }
 export const setSimilarMovie = (similarMovie) => { return { type: 'SET_SIMILAR_MOVIE', similarMovie } }
 export const setDetailsMovie = (detailsMovie) => { return { type: 'SET_DETAILS_MOVIE', detailsMovie } }
+export const setMovieReviews = (reviews) => { return { type: 'SET_MOVIE_REVIEWS', reviews } }
 export default moviePageReducer;

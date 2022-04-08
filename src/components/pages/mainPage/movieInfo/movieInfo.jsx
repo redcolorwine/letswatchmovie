@@ -3,16 +3,27 @@ import { useLocation, useParams } from 'react-router-dom';
 import cmedia from './movieinfo.module.css';
 import preloader from './../../../../media/preloaders/preloader.svg';
 import FilmItem from '../filmItem';
+import ReviewItem from '../reviewItem';
 const MovieInfo = (props) => {
     let location = useLocation();
+    let reviewPage = 1;
     //Получаем ID из URL
     const { id } = useParams();
     //При получении фильма, вызывается запрос данных конкретного фильма по id
     //В зависимости useEffect указан url адрес, так как нужно производить ререндер страницы при изменении id url'а
     useEffect(() => {
+        props.getReviews(id);
         props.getAllDetails(id);
-    }, [location.pathname])
 
+    }, [location.pathname])
+    const onReviewButton = () => {
+        if (reviewPage < props.reviews.total_pages) {
+            reviewPage++;
+            props.getReviews(id, reviewPage);
+        } else {
+            reviewPage = 1;
+        }
+    }
     //Если данные еще не получены, отображаем загрузку страницы preloader
     if (props.isMovieInfoLoading) return (<div className={cmedia.preloader}>
         <img src={preloader} alt="" />
@@ -55,6 +66,9 @@ const MovieInfo = (props) => {
         let productCompanies = props.detailsMovie.production_companies.map(product => {
             return (<div className={cmedia.products}><p>{product.name}</p>{product.logo_path != null && <img src={`https://image.tmdb.org/t/p/w500/${product.logo_path}`} alt="" />}</div>)
         })
+        let reviewItems = props.reviews.results.map(review => {
+            return (<ReviewItem key={review.id} userName={review.author} avaPath={review.author_details.avatar_path != null ? `https://image.tmdb.org/t/p/w500/${review.author_details.avatar_path}` : null} content={review.content} created_at={review.created_at} updated_at={review.updated_at} />)
+        })
         //Отрисовка
         return (
             <div className={cmedia.movieInfo}>
@@ -78,6 +92,12 @@ const MovieInfo = (props) => {
                     <p className={cmedia.about}>{props.detailsMovie.overview}</p>
                 </div>
 
+                {props.reviews.results.length != 0 &&
+                    <>
+                        <h3>Комментарии:</h3>
+                        {reviewItems}
+                        <button className={cmedia.reviewButton} onClick={onReviewButton}>Еще коментарии..</button>
+                    </>}
                 {linksYouTube != '' &&
                     <>
                         <h3>Смотреть трейлер:</h3>

@@ -1,0 +1,50 @@
+.reviewItem {
+    margin: 0 auto;
+    margin-top: 3px;
+    border: 2px solid rgb(165, 161, 178);
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:rgb(165, 161, 178);
+    font-family: 'Century Gothic';
+}
+.reviewItem p{
+    font-size: 10pt;
+}
+.reviewItem h4{
+    padding: 0;
+    margin: 0;
+}
+.reviewAva{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: rgb(255, 15, 77);;
+}
+.reviewAva h4{
+    font-size: 20pt;
+    margin: 0 auto;
+}
+.reviewAva img{
+    height: 65px;
+    width: 65px;
+}
+.reviewText{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    color:black;
+    background-color: white;
+}
+.reviewText span{
+    color:rgb(255, 15, 77);
+}
+hr{
+    padding: 0;
+    margin: 0;
+}

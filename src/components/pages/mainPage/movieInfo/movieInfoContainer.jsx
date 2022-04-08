@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { getAllDetailsMovie } from "../../../../redux/moviePageReducer"
+import { getAllDetailsMovie, getMovieReviews } from "../../../../redux/moviePageReducer"
 
 import MovieInfo from "./movieInfo"
 
@@ -9,7 +9,8 @@ let mapStateToProps = (state) => {
         isMovieInfoLoading: state.movie.isMovieInfoLoading,
         ytLinks: state.movie.ytLinks,
         similarMovie: state.movie.similarMovie,
-        detailsMovie: state.movie.detailsMovie
+        detailsMovie: state.movie.detailsMovie,
+        reviews: state.movie.reviews
     }
 }
 
@@ -18,6 +19,9 @@ let mapDispatchToProps = (dispatch) => {
         //Получени данных выбранного фильма
         getAllDetails: (movieId) => {
             dispatch(getAllDetailsMovie(movieId));
+        },
+        getReviews: (movieId) => {
+            dispatch(getMovieReviews(movieId));
         }
     }
 }

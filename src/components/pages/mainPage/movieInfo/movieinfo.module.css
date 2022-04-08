@@ -117,3 +117,12 @@
     align-items: center;
     font-size: 14pt;
 }
+.reviewButton{
+    margin-top: 20px;
+    padding: 5px;
+    color:white;
+    font-family: 'Century Gothic';
+    font-weight: 700;
+    background-color: rgb(255, 15, 77);
+    border-radius: 5px;
+}
